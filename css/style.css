@@ -130,6 +130,14 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
 #title svg { display: block; width: 100%; height: auto; }
 .credit { display: flex; justify-content: space-between; margin-top: max(18px, calc(55 * var(--u))); font: 700 max(14px, calc(36 * var(--u)))/1.2 'Redaction 35', serif; }
 .credit span { opacity: 0; transform: translateY(0.6em); }
+/* touch screens: a timed fade instead of following the scroll (flow.js) — in one after another, out together;
+   fully switched off when hidden so no faded copy can stay behind */
+@media (hover: none) {
+  .credit span { visibility: hidden; transition: opacity .35s ease, transform .35s ease, visibility 0s linear .35s; }
+  .credit.on span { opacity: 1; transform: none; visibility: visible; transition: opacity .6s ease, transform .6s ease; }
+  .credit.on span:nth-child(2) { transition-delay: .12s; }
+  .credit.on span:nth-child(3) { transition-delay: .24s; }
+}
 .hint { position: absolute; top: 0; left: 0; right: 0; margin: 0; text-align: center; font: 400 12px/1.4 var(--mono); opacity: 0; transition: opacity .4s; }
 
 /* ---------- essay (Figma "Slide 16:9 - 2", gap widened: 1352 wide = 476 side column + 120 gap + 756 body, centred) ---------- */
@@ -287,6 +295,7 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
   .about { width: calc(100vw - 48px); }
   .about-intro { padding-top: 112px; padding-bottom: 48px; }
   .about-title { font-size: 42px; margin-bottom: 28px; }
+  .about-intro .body p:first-child { letter-spacing: -0.015em; }   /* a touch tighter: no lone "games." on the last line */
   .about .cols .side { display: none; }
   .colophon-inner { min-width: 0; width: 100%; }
   .colophon h2 { font-size: 17px; margin-bottom: 20px; }
