@@ -54,10 +54,13 @@ const cardView = new AsciiView($('cardCanvas'));
 let currentSource = null, particles = null, flipped = false, starting = false;
 let cropMode = false, usedAspect = 0, baseAspect = 0;   // baseAspect: shape the size rule uses (the webcam's own shape for photos)
 
+// the hero's height: the stage's own CSS height (100svh — the screen with the browser bars showing), so
+// it stays the same while a phone browser's bars slide in and out
+const stageH = () => stage.clientHeight || innerHeight;
 // the space below the header that the card and the title are centred in
 function cardArea() {
   const top = $('wordmark').getBoundingClientRect().bottom + 28;
-  return { top, areaH: innerHeight - 44 - top };
+  return { top, areaH: stageH() - 44 - top };
 }
 const srcDims = s => [s.naturalWidth || s.videoWidth || s.width, s.naturalHeight || s.videoHeight || s.height];
 // card size for a picture of this shape. crop = true (default image, camera): keep the width and
@@ -85,7 +88,7 @@ function cropTo(source, aspect) {
 }
 
 function layout() {
-  const vw = innerWidth, vh = innerHeight;
+  const vw = innerWidth, vh = stageH();
   const { top, areaH } = cardArea();
   if (currentSource) {
     const [sw, sh] = srcDims(currentSource);
@@ -108,6 +111,9 @@ function layout() {
   if (titleImg) rasterTitle(tl, tt, tw);
   morph.width = Math.round(vw * dpr()); morph.height = Math.round(vh * dpr());
   morphHi.width = Math.round(vw * R); morphHi.height = Math.round(vh * R);
+  // exact CSS size = the size they're drawn at, so they can never be stretched (e.g. the title elongating
+  // when a phone browser's bottom bar slides in and the window height changes)
+  for (const c of [morph, morphHi]) Object.assign(c.style, { width: vw + 'px', height: vh + 'px' });
   particles = null;
   onScroll();
 }
@@ -290,7 +296,7 @@ function setCredit(k) {
 function onScroll() {
   if (document.documentElement.classList.contains('locked') && scrollY !== 0) { scrollTo(0, 0); return; }
   setHeaderState();
-  const range = flow.offsetHeight - innerHeight;
+  const range = flow.offsetHeight - stageH();
   const p = clamp((scrollY - flow.offsetTop) / range);
   const t = clamp((p - 0.1) / 0.6);
   const canMorph = flipped && titleCells && cardView.data;
@@ -361,7 +367,13 @@ $('fileInput').onchange = e => {
   e.target.value = '';
 };
 addEventListener('scroll', onScroll, { passive: true });
-addEventListener('resize', layout);
+// Phone browsers change the window height while scrolling (their bars slide in and out). That's not a real
+// resize: the layout only follows width changes on touch screens, so nothing jumps or stretches.
+let lastW = innerWidth;
+addEventListener('resize', () => {
+  if (matchMedia('(hover: none)').matches && innerWidth === lastW) return;
+  lastW = innerWidth; layout();
+});
 
 // Coming from the About page (index.html?go=h0 / h1 / h2): skip the camera. The page opens as if
 // "Randomize an image" had been picked and played through, already scrolled to that section.

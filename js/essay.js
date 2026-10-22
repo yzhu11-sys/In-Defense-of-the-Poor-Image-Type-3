@@ -404,7 +404,11 @@ function relayout() {
   if (L.amp > 0 || TOUCH.matches) kick();
 }
 let rt = 0;
-addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(relayout, 120); });
+let lastW = innerWidth;
+addEventListener('resize', () => {
+  if (TOUCH.matches && innerWidth === lastW) { dirty = true; return; }   // browser bars sliding: positions only
+  lastW = innerWidth; clearTimeout(rt); rt = setTimeout(relayout, 120);
+});
 // load every Redaction grade up front so the first hover never flashes a fallback font
 const preload = [];
 for (const g of [10, 20, 35, 50, 70]) for (const v of ['400', 'italic 400', '700']) if (!(g === 70 && v === '700')) preload.push(document.fonts.load(`${v} 32px 'Redaction ${g}'`));
