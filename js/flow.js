@@ -290,7 +290,11 @@ function drawMorph(t) {
   x.globalAlpha = 1; h.globalAlpha = 1;
 }
 
+// on touch screens the credit doesn't follow the finger: it fades in (or out) on its own once the title is
+// complete (or breaks up), so a fast swipe can never leave it half-faded on the screen (style.css)
+const TOUCH_SCREEN = matchMedia('(hover: none)');
 function setCredit(k) {
+  if (TOUCH_SCREEN.matches) { $('credit').classList.toggle('on', k > 0.2); return; }
   creditSpans.forEach((s, i) => {
     const v = smooth(i * 0.25, i * 0.25 + 0.5, k);
     s.style.opacity = v;
@@ -310,8 +314,8 @@ function onScroll() {
   cardWrap.style.visibility = t > 0 ? 'hidden' : 'visible';
   cardView.setEnabled(t === 0);
   hint.style.opacity = t > 0 ? 0 : 0.7;
-  drawMorph(t);
   setCredit(clamp((p - 0.74) / 0.16));
+  drawMorph(t);
 }
 
 // ---------- camera capture ----------
