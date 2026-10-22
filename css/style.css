@@ -227,6 +227,11 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
   .index-btn { display: block; font: 700 14px/1.2 var(--mono); color: var(--ink); background: none; border: 0; padding: 14px 0 14px 14px; margin: -14px 0; cursor: pointer; }
   .phone-marks, .cur-section, .index-btn { transition: opacity .4s ease; }
   html.cam-screen .cur-section, html.cam-screen .index-btn { opacity: 0; pointer-events: none; }
+  /* camera screen: only the title, small and centred at the top (tap = start over); no marks, no Index,
+     because nothing can be skipped yet. After an image is picked the header goes back to marks · section · Index */
+  html.cam-screen .phone-marks { opacity: 0; pointer-events: none; }
+  html.cam-screen .site-header .wordmark { display: block !important; position: absolute; left: 50%; transform: translateX(-50%);
+    top: calc(17px + env(safe-area-inset-top)); font-size: 16px; line-height: 20px; opacity: 1; pointer-events: auto; }
   /* the Index menu: full screen, under the header (so "Close" stays on top) */
   .index-menu { position: fixed; inset: 0; z-index: 29; background: var(--paper); display: flex; flex-direction: column; gap: 22px; padding: calc(120px + env(safe-area-inset-top)) 24px calc(40px + env(safe-area-inset-bottom)); }
   .index-menu[hidden] { display: none; }
