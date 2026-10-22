@@ -371,7 +371,16 @@ $('fileInput').onchange = e => {
   rd.readAsDataURL(f);
   e.target.value = '';
 };
-onPageScroll(onScroll);
+// a fast fling on iOS can skip the last scroll events, leaving the title or the credit half-faded: after any
+// scroll, keep reading the position every frame until it has stayed still for a moment
+let settleRaf = 0, settleY = -1, stillFrames = 0;
+function settle() {
+  const y = pageY();
+  if (y !== settleY) { settleY = y; stillFrames = 0; onScroll(); }
+  settleRaf = ++stillFrames < 20 ? requestAnimationFrame(settle) : 0;
+}
+onPageScroll(() => { onScroll(); settleY = pageY(); stillFrames = 0; if (!settleRaf) settleRaf = requestAnimationFrame(settle); });
+addEventListener('scrollend', onScroll, true);
 // Phone browsers change the window height while scrolling (their bars slide in and out). That's not a real
 // resize: the layout only follows width changes on touch screens, so nothing jumps or stretches.
 let lastW = innerWidth;
