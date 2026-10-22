@@ -114,7 +114,7 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
 
 /* ---------- flow: card -> title -> credit ---------- */
 #flow { position: relative; height: 460vh; }
-.stage { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; place-items: center; }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: grid; place-items: center; }
 .card-wrap { position: absolute; left: 0; top: 0; perspective: 1800px; display: none; }
 .card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
 .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
@@ -164,7 +164,7 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
 .note-num { display: block; font: 700 max(16px, calc(26 * var(--u)))/1.4 var(--mono); margin-bottom: max(6px, calc(12 * var(--u))); }
 .note-text { display: block; font: 400 max(13px, calc(20 * var(--u)))/1.4 var(--sans); }
 /* the closing quote fills the last screen and sits in its middle: scrolled to the bottom, only the quote shows */
-.closing { min-height: 100vh; box-sizing: border-box; padding: var(--head-h) 0; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+.closing { min-height: 100vh; min-height: 100svh; box-sizing: border-box; padding: var(--head-h) 0; display: flex; flex-direction: column; justify-content: center; text-align: center; }
 .quote { margin: 0 auto; max-width: calc(1054 / 1352 * 100%); font: 700 max(30px, calc(87 * var(--u)))/1.2 'Redaction 50', serif; text-transform: uppercase; letter-spacing: 0.02em; }
 .quote .open-q { letter-spacing: 0.08em; }
 .attrib { margin: max(24px, calc(50 * var(--u))) 0 0; font: 700 max(14px, calc(32 * var(--u)))/1.2 var(--mono); }
@@ -200,7 +200,7 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
 .about-title { margin: 0 0 max(24px, calc(48 * var(--u))); font: 400 max(36px, calc(96 * var(--u)))/1.2 'Redaction 70', serif; text-transform: uppercase; }
 .about .body i { font-style: italic; }
 /* the colophon fills the screen and sits in its middle, so the bio is fully off screen when it's centred */
-.colophon { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--head-h) 0; box-sizing: border-box; }
+.colophon { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: var(--head-h) 0; box-sizing: border-box; }
 .colophon-inner { width: min(100%, calc(790 * var(--u)), 100%); min-width: min(100%, 560px); }
 .colophon h2 { margin: 0 0 max(18px, calc(32 * var(--u))); font: 700 max(16px, calc(26 * var(--u)))/1.4 var(--mono); }
 .colo-row { display: grid; grid-template-columns: max(110px, calc(240 * var(--u))) 1fr; column-gap: max(12px, calc(24 * var(--u))); margin: 0; }
@@ -214,8 +214,11 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
    ===================================================================================================== */
 .phone-marks, .cur-section, .index-btn, .index-menu, .note-screen { display: none; }
 @media (max-width: 600px) {
-  :root { --pad: 24px; --head-h: 66px; }
-  .site-header { padding: 18px 24px 26px; }
+  /* the page runs under the status bar and the browser's bars (viewport-fit=cover): the header grows by the
+     top safe area and the bottom fade by the bottom one, so no text shows through above or below them */
+  :root { --pad: 24px; --head-h: calc(66px + env(safe-area-inset-top)); }
+  .site-header { padding: calc(18px + env(safe-area-inset-top)) 24px 26px; }
+  .bottom-fade { height: calc(56px + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%); }
   .wordmark, .marks-left, .marks-center, .site-nav { display: none !important; }
   /* header A */
   .phone-marks { display: block; width: 72px; line-height: 0; }
@@ -225,7 +228,7 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
   .phone-marks, .cur-section, .index-btn { transition: opacity .4s ease; }
   html.cam-screen .cur-section, html.cam-screen .index-btn { opacity: 0; pointer-events: none; }
   /* the Index menu: full screen, under the header (so "Close" stays on top) */
-  .index-menu { position: fixed; inset: 0; z-index: 29; background: var(--paper); display: flex; flex-direction: column; gap: 22px; padding: 120px 24px calc(40px + env(safe-area-inset-bottom)); }
+  .index-menu { position: fixed; inset: 0; z-index: 29; background: var(--paper); display: flex; flex-direction: column; gap: 22px; padding: calc(120px + env(safe-area-inset-top)) 24px calc(40px + env(safe-area-inset-bottom)); }
   .index-menu[hidden] { display: none; }
   .index-menu a { font: 700 20px/1.4 var(--mono); color: #8c8c8c; text-decoration: none; }
   .index-menu a[aria-current] { color: var(--ink); }
@@ -233,8 +236,9 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
   html.menu-open, html.menu-open body { overflow: hidden; }
 
   /* hero */
-  .intro { padding-top: 70px; }
-  .camera3d { width: calc(100vw - 48px); height: min(46vh, 320px); }
+  /* the camera screen fits the visible area even with the browser bars showing (svh), sitting a bit higher */
+  .intro { padding-top: var(--head-h); padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
+  .camera3d { width: calc(100vw - 48px); height: min(38svh, 300px); }
   /* buttons exactly as the Figma phone frame: 4 px pixel bars, 20 px text, 16 px from bar to text, 40 tall */
   .actions { gap: 18px; margin-top: 28px; }
   .actions button { --p: 4px; font-size: 20px; line-height: 1.2; padding: 0 calc(3 * var(--p)); }
@@ -276,9 +280,9 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
   /* a footnote: the whole screen goes black, showing the paragraph that cites it (dimmed, its note number
      bright) and the note itself below; Close goes back to the text where you were */
   .note-screen { display: block; position: fixed; inset: 0; z-index: 50; background: var(--paper); overflow-y: auto; overscroll-behavior: contain;
-    padding: 140px 24px calc(56px + env(safe-area-inset-bottom)); }
+    padding: calc(140px + env(safe-area-inset-top)) 24px calc(56px + env(safe-area-inset-bottom)); }
   .note-screen[hidden] { display: none; }
-  .ns-close { position: absolute; top: 80px; right: 24px; font: 400 13px/1.4 var(--mono); color: #999; background: none; border: 0; padding: 12px; margin: -12px; cursor: pointer; }
+  .ns-close { position: absolute; top: calc(80px + env(safe-area-inset-top)); right: 24px; font: 400 13px/1.4 var(--mono); color: #999; background: none; border: 0; padding: 12px; margin: -12px; cursor: pointer; }
   .ns-para { margin: 0; font: 400 17px/1.55 var(--sans); color: rgba(255, 255, 255, .7); }
   .ns-para em { font-family: 'Redaction 70', serif; font-style: italic; text-transform: uppercase; }
   .ns-para .ref { color: inherit; pointer-events: none; }
