@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>In Defense of the Poor Image — Hito Steyerl</title>
+<meta name="description" content="A typographic edition of Hito Steyerl's essay In Defense of the Poor Image (2009).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;1,9..40,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<!-- arriving from the About page (?go=h0/h1/h2): never show the camera or the top of the page on the way -->
+<script>{ const m = location.search.match(/[?&]go=(h\d)/); if (m) { window.SKIP_TO = m[1]; document.documentElement.classList.add('skip'); } }</script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+
+<header class="site-header state-b" id="siteHeader">
+  <!-- state B (camera screen, and after the big title): wordmark + three centred marks; state A (from the flash until the title scrolls off): five marks on the left act as "start over" -->
+  <a class="wordmark" id="wordmark" href="index.html" title="Start over">In Defense of the Poor Image</a>
+  <a class="marks marks-left" id="marksReset" href="index.html" title="Start over" aria-label="Start over"><svg width="421" height="17" viewBox="0 0 421 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.2 0V6.8H6.8V0H10.2ZM17 3.4V6.8H13.6V3.4H17ZM0 3.4H3.4V6.8H0V3.4ZM13.6 6.8V10.2H10.2V6.8H13.6ZM3.4 6.8H6.8V10.2H3.4V6.8ZM10.2 10.2V17H6.8V10.2H10.2ZM17 10.2V13.6H13.6V10.2H17ZM0 10.2H3.4V13.6H0V10.2Z" fill="white"/>
+<path d="M111.2 0V6.8H107.8V0H111.2ZM118 3.4V6.8H114.6V3.4H118ZM101 3.4H104.4V6.8H101V3.4ZM114.6 6.8V10.2H111.2V6.8H114.6ZM104.4 6.8H107.8V10.2H104.4V6.8ZM111.2 10.2V17H107.8V10.2H111.2ZM118 10.2V13.6H114.6V10.2H118ZM101 10.2H104.4V13.6H101V10.2Z" fill="white"/>
+<path d="M212.2 0V6.8H208.8V0H212.2ZM219 3.4V6.8H215.6V3.4H219ZM202 3.4H205.4V6.8H202V3.4ZM215.6 6.8V10.2H212.2V6.8H215.6ZM205.4 6.8H208.8V10.2H205.4V6.8ZM212.2 10.2V17H208.8V10.2H212.2ZM219 10.2V13.6H215.6V10.2H219ZM202 10.2H205.4V13.6H202V10.2Z" fill="white"/>
+<path d="M313.2 0V6.8H309.8V0H313.2ZM320 3.4V6.8H316.6V3.4H320ZM303 3.4H306.4V6.8H303V3.4ZM316.6 6.8V10.2H313.2V6.8H316.6ZM306.4 6.8H309.8V10.2H306.4V6.8ZM313.2 10.2V17H309.8V10.2H313.2ZM320 10.2V13.6H316.6V10.2H320ZM303 10.2H306.4V13.6H303V10.2Z" fill="white"/>
+<path d="M414.2 0V6.8H410.8V0H414.2ZM421 3.4V6.8H417.6V3.4H421ZM404 3.4H407.4V6.8H404V3.4ZM417.6 6.8V10.2H414.2V6.8H417.6ZM407.4 6.8H410.8V10.2H407.4V6.8ZM414.2 10.2V17H410.8V10.2H414.2ZM421 10.2V13.6H417.6V10.2H421ZM404 10.2H407.4V13.6H404V10.2Z" fill="white"/>
+</svg></a>
+  <div class="marks marks-center" aria-hidden="true"><svg width="219" height="17" viewBox="0 0 219 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.2 0V6.8H6.8V0H10.2ZM17 3.4V6.8H13.6V3.4H17ZM0 3.4H3.4V6.8H0V3.4ZM13.6 6.8V10.2H10.2V6.8H13.6ZM3.4 6.8H6.8V10.2H3.4V6.8ZM10.2 10.2V17H6.8V10.2H10.2ZM17 10.2V13.6H13.6V10.2H17ZM0 10.2H3.4V13.6H0V10.2Z" fill="white"/>
+<path d="M111.2 0V6.8H107.8V0H111.2ZM118 3.4V6.8H114.6V3.4H118ZM101 3.4H104.4V6.8H101V3.4ZM114.6 6.8V10.2H111.2V6.8H114.6ZM104.4 6.8H107.8V10.2H104.4V6.8ZM111.2 10.2V17H107.8V10.2H111.2ZM118 10.2V13.6H114.6V10.2H118ZM101 10.2H104.4V13.6H101V10.2Z" fill="white"/>
+<path d="M212.2 0V6.8H208.8V0H212.2ZM219 3.4V6.8H215.6V3.4H219ZM202 3.4H205.4V6.8H202V3.4ZM215.6 6.8V10.2H212.2V6.8H215.6ZM205.4 6.8H208.8V10.2H205.4V6.8ZM212.2 10.2V17H208.8V10.2H212.2ZM219 10.2V13.6H215.6V10.2H219ZM202 10.2H205.4V13.6H202V10.2Z" fill="white"/>
+</svg></div>
+  <nav class="site-nav">
+    <div class="nav-text">
+      <button type="button" class="nav-label" id="navText" aria-haspopup="true">Text</button>
+      <!-- hover "Text": the three sections; inactive (dimmed) until an image is picked -->
+      <ul class="nav-menu" aria-label="Sections">
+        <li><a href="#h0" data-go="h0">#0 Introduction</a></li>
+        <li><a href="#h1" data-go="h1">#1 Low Resolution</a></li>
+        <li><a href="#h2" data-go="h2">#2 Resurrection</a></li>
+      </ul>
+    </div>
+    <a href="about.html">About</a>
+  </nav>
+  <!-- phone (header A): three marks = start over · the section you're in · Index (opens the full-screen menu) -->
+  <a class="phone-marks" id="marksPhone" href="index.html" title="Start over" aria-label="Start over"><svg width="219" height="17" viewBox="0 0 219 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.2 0V6.8H6.8V0H10.2ZM17 3.4V6.8H13.6V3.4H17ZM0 3.4H3.4V6.8H0V3.4ZM13.6 6.8V10.2H10.2V6.8H13.6ZM3.4 6.8H6.8V10.2H3.4V6.8ZM10.2 10.2V17H6.8V10.2H10.2ZM17 10.2V13.6H13.6V10.2H17ZM0 10.2H3.4V13.6H0V10.2Z" fill="white"/>
+<path d="M111.2 0V6.8H107.8V0H111.2ZM118 3.4V6.8H114.6V3.4H118ZM101 3.4H104.4V6.8H101V3.4ZM114.6 6.8V10.2H111.2V6.8H114.6ZM104.4 6.8H107.8V10.2H104.4V6.8ZM111.2 10.2V17H107.8V10.2H111.2ZM118 10.2V13.6H114.6V10.2H118ZM101 10.2H104.4V13.6H101V10.2Z" fill="white"/>
+<path d="M212.2 0V6.8H208.8V0H212.2ZM219 3.4V6.8H215.6V3.4H219ZM202 3.4H205.4V6.8H202V3.4ZM215.6 6.8V10.2H212.2V6.8H215.6ZM205.4 6.8H208.8V10.2H205.4V6.8ZM212.2 10.2V17H208.8V10.2H212.2ZM219 10.2V13.6H215.6V10.2H219ZM202 10.2H205.4V13.6H202V10.2Z" fill="white"/>
+</svg></a>
+  <span class="cur-section" id="curSection"></span>
+  <button type="button" class="index-btn" id="indexBtn" aria-expanded="false" aria-controls="indexMenu">Index</button>
+</header>
+
+<!-- phone: the Index menu (full screen) -->
+<nav class="index-menu" id="indexMenu" aria-label="Sections" hidden>
+  <a href="#h0" data-go="h0">#0 Introduction</a>
+  <a href="#h1" data-go="h1">#1 Low Resolution</a>
+  <a href="#h2" data-go="h2">#2 Resurrection</a>
+  <a href="about.html">About</a>
+</nav>
+
+
+<main id="top">
+  <h1 class="sr-only">In Defense of the Poor Image — Hito Steyerl, 2009 (excerpt)</h1>
+
+  <section id="flow" aria-label="Take or pick an image; it becomes ASCII and turns into the title">
+    <div class="stage" id="stage">
+      <div class="intro" id="intro">
+        <div class="camera3d" id="camera3d" role="img" aria-label="A 3D camera. Click it to take a photo."></div>
+        <div class="actions">
+          <button id="btnCamera" type="button">Take an image</button>
+          <button id="btnUpload" type="button">Upload an Image</button>
+          <button id="btnGenerate" type="button">Randomize an image</button>
+          <input id="fileInput" type="file" accept="image/*" hidden>
+        </div>
+      </div>
+      <div class="card-wrap" id="cardWrap">
+        <div class="card" id="card">
+          <div class="face back"><svg width="219" height="17" viewBox="0 0 219 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.2 0V6.8H6.8V0H10.2ZM17 3.4V6.8H13.6V3.4H17ZM0 3.4H3.4V6.8H0V3.4ZM13.6 6.8V10.2H10.2V6.8H13.6ZM3.4 6.8H6.8V10.2H3.4V6.8ZM10.2 10.2V17H6.8V10.2H10.2ZM17 10.2V13.6H13.6V10.2H17ZM0 10.2H3.4V13.6H0V10.2Z" fill="black"/>
+<path d="M111.2 0V6.8H107.8V0H111.2ZM118 3.4V6.8H114.6V3.4H118ZM101 3.4H104.4V6.8H101V3.4ZM114.6 6.8V10.2H111.2V6.8H114.6ZM104.4 6.8H107.8V10.2H104.4V6.8ZM111.2 10.2V17H107.8V10.2H111.2ZM118 10.2V13.6H114.6V10.2H118ZM101 10.2H104.4V13.6H101V10.2Z" fill="black"/>
+<path d="M212.2 0V6.8H208.8V0H212.2ZM219 3.4V6.8H215.6V3.4H219ZM202 3.4H205.4V6.8H202V3.4ZM215.6 6.8V10.2H212.2V6.8H215.6ZM205.4 6.8H208.8V10.2H205.4V6.8ZM212.2 10.2V17H208.8V10.2H212.2ZM219 10.2V13.6H215.6V10.2H219ZM202 10.2H205.4V13.6H202V10.2Z" fill="black"/>
+</svg></div>
+          <div class="face front"><canvas id="cardCanvas" aria-hidden="true"></canvas></div>
+        </div>
+      </div>
+      <canvas id="morph" aria-hidden="true"></canvas>
+      <canvas id="morphHi" aria-hidden="true"></canvas>
+      <div class="title-block" id="titleBlock">
+        <div id="title" aria-hidden="true"><svg width="898" height="694" viewBox="0 0 898 694" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M809.312 592.414H780.776V563.389H737.971V606.926H752.239V635.951H795.044V650.463H737.971V635.951H723.702V621.438H709.434V577.901H723.702V563.389H737.971V548.877H795.044V563.389H809.312V592.414ZM752.239 606.926V592.414H780.776V606.926H752.239Z" fill="white"/>
+<path d="M680.985 664.975H623.912V694H595.375V664.975H623.912V650.463H609.643V621.438H623.912V606.926H609.643V563.389H623.912V548.877H680.985V534.365H709.521V563.389H695.253V548.877H680.985V563.389H695.253V606.926H680.985V621.438H623.912V635.951H695.253V650.463H709.521V679.488H695.253V694H680.985V664.975ZM638.18 606.926H666.717V563.389H638.18V606.926Z" fill="white"/>
+<path d="M509.853 621.438H524.121V635.951H538.39V621.438H552.658V606.926H509.853V592.414H552.658V563.389H524.121V577.901H495.585V563.389H509.853V548.877H566.926V563.389H581.195V650.463H552.658V635.951H538.39V650.463H495.585V635.951H481.316V621.438H495.585V606.926H509.853V621.438Z" fill="white"/>
+<path d="M295.796 548.877H338.601V650.463H310.065V563.389H295.796V548.877ZM367.138 577.901V563.389H352.87V548.877H395.675V563.389H409.943V548.877H452.748V563.389H467.016V650.463H424.211V635.951H438.479V563.389H409.943V650.463H367.138V635.951H381.406V577.901H367.138Z" fill="white"/>
+<path d="M281.544 635.951V650.463H210.203V635.951H238.739V519.852H224.471V505.34H295.812V519.852H267.276V635.951H281.544Z" fill="white"/>
+<path d="M767.104 490.18V504.692H724.3V417.619H710.031V403.106H752.836V417.619H767.104V403.106H809.909V432.131H781.373V417.619H767.104V432.131H752.836V490.18H767.104Z" fill="white"/>
+<path d="M681.583 490.18V504.692H624.509V490.18H610.241V475.668H595.973V446.643H610.241V417.619H624.509V403.106H681.583V417.619H695.851V432.131H710.119V461.156H695.851V490.18H681.583ZM638.778 490.18H667.314V417.619H638.778V490.18Z" fill="white"/>
+<path d="M567.523 490.18V504.692H510.45V490.18H496.182V475.668H481.914V446.643H496.182V417.619H510.45V403.106H567.523V417.619H581.792V432.131H596.06V461.156H581.792V490.18H567.523ZM524.719 490.18H553.255V417.619H524.719V490.18Z" fill="white"/>
+<path d="M410.595 446.643V490.18H424.863V504.692H353.522V490.18H367.79V475.667H382.059V374.081H367.79V359.569H467.668V374.081H481.937V388.593H496.205V403.106H481.937V432.13H453.4V446.643H410.595ZM410.595 432.13H439.132V417.618H453.4V374.081H410.595V432.13Z" fill="white"/>
+<path d="M741.833 271.717H713.296V242.692H670.491V286.229H684.76V315.254H727.564V329.766H670.491V315.254H656.223V300.742H641.955V257.205H656.223V242.692H670.491V228.18H727.564V242.692H741.833V271.717ZM684.76 286.229V271.717H713.296V286.229H684.76Z" fill="white"/>
+<path d="M570.629 315.254V329.766H556.36V300.742H584.897V315.254H613.434V300.742H599.165V286.229H570.629V271.717H556.36V242.692H570.629V228.18H613.434V242.692H627.702V257.205H613.434V242.692H584.897V257.205H599.165V271.717H627.702V286.229H641.97V315.254H627.702V329.766H584.897V315.254H570.629Z" fill="white"/>
+<path d="M485.043 315.254V329.766H442.238V242.692H427.97V228.18H470.775V242.692H485.043V228.18H527.848V242.692H542.116V329.766H499.311V315.254H513.58V242.692H485.043V257.205H470.775V315.254H485.043Z" fill="white"/>
+<path d="M427.922 271.717H399.385V242.692H356.58V286.229H370.848V315.254H413.653V329.766H356.58V315.254H342.312V300.742H328.043V257.205H342.312V242.692H356.58V228.18H413.653V242.692H427.922V271.717ZM370.848 286.229V271.717H399.385V286.229H370.848Z" fill="white"/>
+<path d="M299.586 184.643V170.131H313.854V184.643H299.586ZM328.123 213.668V184.643H342.391V213.668H328.123ZM313.854 315.254V329.766H271.05V242.692H256.781V228.18H271.05V199.155H285.318V184.643H299.586V228.18H328.123V242.692H299.586V315.254H313.854Z" fill="white"/>
+<path d="M256.733 271.717H228.197V242.692H185.392V286.229H199.66V315.254H242.465V329.766H185.392V315.254H171.123V300.742H156.855V257.205H171.123V242.692H185.392V228.18H242.465V242.692H256.733V271.717ZM199.66 286.229V271.717H228.197V286.229H199.66Z" fill="white"/>
+<path d="M0 329.767V315.255H14.2683V199.156H0V184.644H99.8782V199.156H128.415V213.668H142.683V228.181H156.951V271.718H142.683V300.742H128.415V315.255H114.146V329.767H0ZM57.0732 315.255H99.8782V300.742H114.146V213.668H99.8782V199.156H57.0732V315.255Z" fill="white"/>
+<path d="M187.255 130.611V145.123H144.45V58.0492H130.182V43.5369H172.987V58.0492H187.255V43.5369H230.06V58.0492H244.329V145.123H201.524V130.611H215.792V58.0492H187.255V72.5615H172.987V130.611H187.255Z" fill="white"/>
+<path d="M115.93 130.611V145.123H44.5884V130.611H73.125V14.5123H58.8567V0H130.198V14.5123H101.662V130.611H115.93Z" fill="white"/>
+<path d="M833.908 350.776V360.031H824.757V350.776H833.908V323.01H843.059V304.5H852.21V267.479H861.361V258.224H870.512V239.713H888.815V248.969H879.664V258.224H870.512V267.479H888.815V276.734H861.361V304.5H852.21V332.266H843.059V350.776H833.908ZM897.966 248.969V258.224H888.815V248.969H897.966ZM806.455 350.776H815.606V360.031H806.455V350.776Z" fill="white"/>
+<path d="M797.527 332.79V323.709H806.455V314.629H815.383V278.306H797.527V287.387H788.599V332.79H779.672V323.709H770.744V296.467H779.672V287.387H788.599V278.306H797.527V269.226H824.311V287.387H833.239V305.548H824.311V323.709H815.383V332.79H797.527Z" fill="white"/>
+<path d="M326.667 385.808V412.047H309.469V403.301H318.068V394.555H300.87V403.301H292.271V412.047H300.87V420.793H292.271V438.286H309.469V447.032H283.671V429.54H275.072V420.793H283.671V403.301H292.271V394.555H300.87V385.808H326.667Z" fill="white"/>
+<path d="M240.728 394.555H232.129V420.793H223.53V438.286H214.931V447.032H206.332V438.286H214.931V412.047H223.53V394.555H232.129V359.57H249.327V377.062H240.728V394.555ZM257.927 412.047V394.555H249.327V385.808H266.526V420.793H257.927V447.032H240.728V438.286H249.327V412.047H257.927Z" fill="white"/>
+<path d="M197.781 394.554V403.301H189.182V420.793H180.583V438.286H189.182V447.032H171.984V420.793H180.583V385.808H189.182V377.062H197.781V368.316H206.381V377.062H197.781V385.808H214.98V394.554H197.781Z" fill="white"/>
+</svg></div>
+        <p class="credit" id="credit"><span>Hito Steyerl</span><span>2009</span><span>(excerpt)</span></p>
+      </div>
+      <p class="hint" id="hint">hover the image · scroll ↓</p>
+    </div>
+  </section>
+
+  <!-- ---------- the essay (from Figma "Slide 16:9 - 2") ----------
+       Hover rules: .fx-clear (Redaction) gets clearer near the cursor, 70/50 -> 10;
+       .fx-px (DM Sans + JetBrains Mono) gets more pixelated near the cursor.
+       Footnotes are placed by js/essay.js so each one starts level with the paragraph that cites it. -->
+  <article id="text" class="essay" data-fx-root>
+
+    <section class="sec" aria-labelledby="h0">
+      <h2 class="sec-head" id="h0"><span class="sec-num fx-clear" data-from="50"><b>#</b><i>0</i></span><span class="sec-title fx-clear" data-from="70">Introduction</span></h2>
+      <div class="cols">
+        <div class="side">
+          <figure class="ascii-fig tall" data-img="s0"><canvas aria-label="Photograph, shown as ASCII characters"></canvas></figure>
+          <div class="stars" aria-hidden="true"></div>
+        </div>
+        <div class="body fx-px">
+          <p>The <em class="fx-clear" data-from="70">poor image</em> is a copy in motion. Its quality is bad, its resolution substandard. As it accelerates, it deteriorates. It is a ghost of an image, a preview, a thumbnail, an errant idea, an itinerant image distributed for free, squeezed through slow digital connections, compressed, reproduced, ripped, remixed, as well as copied and pasted into other channels of distribution.</p>
+          <p>The <em class="fx-clear" data-from="70">poor image</em> is a rag or a rip; an AVI or a JPEG, a lumpen proletarian in the class society of appearances, ranked and valued according to its resolution. The poor image has been uploaded, downloaded, shared, reformatted, and reedited. It transforms quality into accessibility, exhibition value into cult value, films into clips, contemplation into distraction. The image is liberated from the vaults of cinemas and archives and thrust into digital uncertainty, at the expense of its own substance. The poor image tends towards abstraction: it is a visual idea in its very becoming.</p>
+          <p>The <em class="fx-clear" data-from="70">poor image</em> is an illicit fifth-generation bastard of an original image. Its genealogy is dubious. Its filenames are deliberately misspelled. It often defies patrimony, national culture, or indeed copyright. It is passed on as a lure, a decoy, an index, or as a reminder of its former visual self. It mocks the promises of digital technology. Not only is it often degraded to the point of being just a hurried blur, one even doubts whether it could be called an image at all. Only digital technology could produce such a dilapidated image in the first place.</p>
+          <p><em class="fx-clear" data-from="70">poor images</em> are the contemporary Wretched of the Screen, the debris of audiovisual production, the trash that washes up on the digital economies’ shores. They testify to the violent dislocation, transferrals, and displacement of images – their acceleration and circulation within the vicious cycles of audiovisual capitalism. <em class="fx-clear" data-from="70">Poor images</em> are dragged around the globe as commodities or their effigies, as gifts or as bounty. They spread pleasure or death threats, conspiracy theories or bootlegs, resistance or stultification. <em class="fx-clear" data-from="70">Poor images</em> show the rare, the obvious, and the unbelievable – that is, if we can still manage to decipher it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h1">
+      <h2 class="sec-head" id="h1"><span class="sec-num fx-clear" data-from="50"><b>#</b><i>1</i></span><span class="sec-title fx-clear" data-from="70">Low Resolution</span></h2>
+      <figure class="ascii-fig wide" data-img="s1"><canvas aria-label="Photograph, shown as ASCII characters"></canvas></figure>
+      <div class="cols">
+        <div class="side">
+          <p class="note fx-px" id="fn1" data-ref="1"><span class="note-num">[1]</span><span class="note-text"><i>Deconstructing Harry</i>, directed by Woody Allen (1997).</span></p>
+          <p class="note fx-px" id="fn2" data-ref="2"><span class="note-num">[2]</span><span class="note-text">“Wer Gemälde wirklich sehen will, geht ja schließlich auch ins Museum,” <i>Frankfurter Allgemeine Zeitung</i>, June 14, 2007. Conversation between Harun Farocki and Alexander Horwath.</span></p>
+        </div>
+        <div class="body fx-px">
+          <p>In one of Woody Allen’s films the main character is <em class="fx-clear" data-from="70">out of focus</em>.<a class="ref" href="#fn1" data-ref="1">[1]</a> It’s not a technical problem but some sort of disease that has befallen him: his image is consistently <em class="fx-clear" data-from="70">blurred</em>. Since Allen’s character is an actor, this becomes a major problem: he is unable to find work. His lack of definition turns into a material problem. Focus is identified as a class position, a position of ease and privilege, while being <em class="fx-clear" data-from="70">out of focus</em> lowers one’s value as an image.</p>
+          <p>The contemporary hierarchy of images, however, is not only based on sharpness, but also and primarily on resolution. Just look at any electronics store and this system, described by Harun Farocki in a notable 2007 interview, becomes immediately apparent.<a class="ref" href="#fn2" data-ref="2">[2]</a> In the class society of images, cinema takes on the role of a flagship store. In flagship stores high-end products are marketed in an upscale environment. More affordable <em class="fx-clear" data-from="70">derivatives</em> of the same images circulate as DVDs, on broadcast television or online, as <em class="fx-clear" data-from="70">poor images</em>.</p>
+          <p>Obviously, a high-resolution image looks more brilliant and impressive, more mimetic and magic, more scary and seductive than a <em class="fx-clear" data-from="70">poor</em> one. It is more rich, so to speak. Now, even consumer formats are increasingly adapting to the tastes of cineastes and esthetes, who insisted on 35 mm film as a guarantee of pristine visuality. The insistence upon analog film as the sole medium of visual importance resounded throughout discourses on cinema, almost regardless of their ideological inflection. It never mattered that these high-end economies of film production were (and still are) firmly anchored in systems of national culture, capitalist studio production, the cult of mostly male genius, and the original version, and thus are often conservative in their very structure. Resolution was fetishized as if its lack amounted to castration of the author. The cult of film gauge dominated even independent film production. The rich image established its own set of hierarchies, with new technologies offering more and more possibilities to creatively <em class="fx-clear" data-from="70">degrade</em> it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h2">
+      <h2 class="sec-head" id="h2"><span class="sec-num fx-clear" data-from="50"><b>#</b><i>2</i></span><span class="sec-title fx-clear" data-from="70">Resurrection</span><span class="sec-sub fx-clear" data-from="70">(as Poor Images)</span></h2>
+      <div class="cols">
+        <div class="side">
+          <figure class="ascii-fig tall" data-img="s2"><canvas aria-label="Photograph, shown as ASCII characters"></canvas></figure>
+          <div class="stars" aria-hidden="true"></div>
+          <p class="note fx-px" id="fn3" data-ref="3"><span class="note-num">[3]</span><span class="note-text">Sven Lütticken’s excellent text “Viewing Copies: On the Mobility of Moving Images,” in <i>e-flux journal</i>, no. 8 (May 2009), drew my attention to this aspect of poor images. See http://eflux.com/journal/view/75.</span></p>
+        </div>
+        <div class="body fx-px">
+          <p>But insisting on rich images also had more serious consequences. A speaker at a recent conference on the film essay refused to show clips from a piece by Humphrey Jennings because no proper film projection was available. Although there was at the speaker’s disposal a perfectly standard DVD player and video projector, the audience was left to imagine what those images might have looked like.</p>
+          <p>In this case the invisibility of the image was more or less voluntary and based on aesthetic premises. But it has a much more general equivalent based on the consequences of neoliberal policies. Twenty or even thirty years ago, the neoliberal restructuring of media production began slowly obscuring noncommercial imagery, to the point where experimental and essayistic cinema became almost invisible. As it became prohibitively expensive to keep these works circulating in cinemas, so were they also deemed too marginal to be broadcast on television. Thus they slowly disappeared not just from cinemas, but from the public sphere as well. Video essays and experimental films remained for the most part unseen save for some rare screenings in metropolitan film museums or film clubs, projected in their original resolution before disappearing again into the darkness of the archive.</p>
+          <p>This development was of course connected to the neoliberal radicalization of the concept of culture as commodity, to the commercialization of cinema, its dispersion into multiplexes, and the marginalization of independent filmmaking. It was also connected to the restructuring of global media industries and the establishment of monopolies over the audiovisual in certain countries or territories. In this way, resistant or non-conformist visual matter disappeared from the surface into an underground of alternative archives and collections, kept alive only by a network of committed organizations and individuals, who would circulate bootlegged VHS copies amongst themselves. Sources for these were extremely rare – tapes moved from hand to hand, depending on word of mouth, within circles of friends and colleagues. With the possibility to stream video online, this condition started to dramatically change. An increasing number of rare materials reappeared on publicly accessible platforms, some of them carefully curated (Ubuweb) and some just a pile of stuff (YouTube).</p>
+          <p>At present, there are at least twenty torrents of Chris Marker’s film essays available online. If you want a retrospective, you can have it. But the economy of poor images is about more than just downloads: you can keep the files, watch them again, even reedit or improve them if you think it necessary. And the results circulate. <em class="fx-clear" data-from="70">Blurred</em> AVI files of half-forgotten masterpieces are exchanged on semi-secret P2P platforms. Clandestine cell-phone videos smuggled out of museums are broadcast on YouTube. DVDs of artists’ viewing copies are bartered.<a class="ref" href="#fn3" data-ref="3">[3]</a> Many works of avant-garde, essayistic, and non-commercial cinema have been resurrected as poor images. Whether they like it or not.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <blockquote class="quote fx-clear" data-from="50"><span class="open-q">“</span>The poor image is a copy in motion.”</blockquote>
+      <p class="attrib fx-px">— Hito Steyerl</p>
+    </section>
+  </article>
+</main>
+
+<!-- the bottom edge mirrors the header: the page fades into black -->
+<div class="bottom-fade" aria-hidden="true"></div>
+<div class="veil" id="veil"></div>
+<div class="flash" id="flash"></div>
+
+<div class="cam" id="cam" role="dialog" aria-label="Take a photo">
+  <div class="cam-frame" id="camFrame"><video id="video" autoplay playsinline muted></video></div>
+  <div class="actions">
+    <button id="btnSnap" type="button">Take photo</button>
+    <button id="btnCamCancel" type="button">Cancel</button>
+  </div>
+  <p class="cam-msg" id="camMsg"></p>
+</div>
+
+<script src="js/default-image.js"></script>
+<script src="js/ascii.js"></script>
+<script src="js/flow.js"></script>
+<script src="js/essay-images.js"></script>
+<script src="js/essay.js"></script>
+<!-- the 3D camera is inline so the page also works when opened by double-click -->
+<script type="module">
+// 3D compact camera modelled after a silver point-and-shoot (Canon PowerShot A95 as reference).
+// The zoom lens powers on (comes out) when the camera is on screen and stays out; the camera tilts
+// toward the mouse; the flash fires when an image is taken / uploaded / generated.
+// Arriving from the About page (index.html?go=…) the camera isn't on screen, so it isn't built yet (no
+// Three.js download or scene setup competing with the essay). It's built the moment the reader starts
+// over (camera:reset, from the wordmark / marks), so the camera screen always has its camera.
+if (window.SKIP_TO) await new Promise(r => addEventListener('camera:reset', r, { once: true }));
+const THREE = await import('three');
+const { RoundedBoxGeometry } = await import('three/addons/geometries/RoundedBoxGeometry.js');
+const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+
+const host = document.getElementById('camera3d');
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+host.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+const view = new THREE.PerspectiveCamera(22, 1, 0.1, 200);
+scene.add(new THREE.AmbientLight(0xffffff, 0.15));
+const key = new THREE.DirectionalLight(0xffffff, 1.5); key.position.set(4, 6, 7); scene.add(key);
+const rim = new THREE.DirectionalLight(0xffffff, 1.0); rim.position.set(-6, 4, -5); scene.add(rim);
+
+// ---------- materials ----------
+const M = {
+  silver: new THREE.MeshPhysicalMaterial({ color: 0xdadbdd, metalness: 0.9, roughness: 0.3, clearcoat: 0.5, clearcoatRoughness: 0.2 }),
+  satin: new THREE.MeshPhysicalMaterial({ color: 0xbfc1c4, metalness: 0.9, roughness: 0.42 }),
+  chrome: new THREE.MeshPhysicalMaterial({ color: 0xf4f4f4, metalness: 1, roughness: 0.1 }),
+  dark: new THREE.MeshPhysicalMaterial({ color: 0x2b2c2e, metalness: 0.5, roughness: 0.45 }),
+  black: new THREE.MeshPhysicalMaterial({ color: 0x0b0b0c, metalness: 0.3, roughness: 0.35, clearcoat: 0.8 }),
+  matte: new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.85, metalness: 0.1 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: 0x06070a, metalness: 0.2, roughness: 0.03, clearcoat: 1, iridescence: 0.8, iridescenceIOR: 1.7, iridescenceThicknessRange: [200, 600] }),
+};
+for (const m of Object.values(M)) m.side = THREE.DoubleSide;
+
+// ---------- helpers ----------
+const rig = new THREE.Group();
+scene.add(rig);
+function add(parent, geo, mat, x = 0, y = 0, z = 0) { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); parent.add(m); return m; }
+const rbox = (w, h, d, r) => new RoundedBoxGeometry(w, h, d, 6, r);
+// lathe around the z axis: points are [radius, z]
+const latheZ = (pts, seg = 96) => { const g = new THREE.LatheGeometry(pts.map(([r, z]) => new THREE.Vector2(r, z)), seg); g.rotateX(Math.PI / 2); return g; };
+// lathe around the y axis: points are [radius, y]
+const latheY = (pts, seg = 64) => new THREE.LatheGeometry(pts.map(([r, y]) => new THREE.Vector2(r, y)), seg);
+function canvasTex(w, h, draw) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+function decal(parent, tex, w, h, pos, rot = [0, 0, 0], opts = {}) {
+  const mat = new THREE.MeshPhysicalMaterial({ map: tex, transparent: true, metalness: 0.2, roughness: 0.5, polygonOffset: true, polygonOffsetFactor: -4, depthWrite: false, ...opts });
+  const m = add(parent, new THREE.PlaneGeometry(w, h), mat, ...pos);
+  m.rotation.set(...rot); return m;
+}
+await Promise.race([document.fonts.load('700 40px "Redaction 50"'), new Promise(r => setTimeout(r, 1500))]);
+
+// ---------- body (x: right, y: up, z: toward the viewer) ----------
+const FRONT = 0.725;
+// ---------- body + hand grip as ONE shape: no seam where the grip meets the body ----------
+// Outline seen from above (x, z), extruded upward with one rounded edge (RB) all round the top and
+// bottom. The extrusion's rounding grows the outline by RB, so the outline sits RB inside the final
+// surfaces (front / back faces at z = ±0.725, right side at x = 2.4). Top at y = 1.4, bottom at
+// y = -1.75 (taller than before so the lens sits inside the body).
+const RB = 0.3, BODY_TOP = 1.4, BODY_BOTTOM = -1.75;
+const IN_F = FRONT - RB, IN_R = 2.4 - RB;
+const gripFront1 = new THREE.CubicBezierCurve(new THREE.Vector2(-0.62, IN_F), new THREE.Vector2(-1.02, IN_F), new THREE.Vector2(-1.2, 0.9), new THREE.Vector2(-1.68, 0.9));
+const gripFront2 = new THREE.CubicBezierCurve(new THREE.Vector2(-1.68, 0.9), new THREE.Vector2(-1.95, 0.9), new THREE.Vector2(-2.11, 0.7), new THREE.Vector2(-2.11, 0.35));
+{
+  const s = new THREE.Shape();
+  s.moveTo(IN_R - 0.15, IN_F);
+  s.lineTo(-0.62, IN_F);                                                  // front face
+  s.bezierCurveTo(-1.02, IN_F, -1.2, 0.9, -1.68, 0.9);                     // grip swells out of the front
+  s.bezierCurveTo(-1.95, 0.9, -2.11, 0.7, -2.11, 0.35);                    // and rounds over the outer side
+  s.lineTo(-2.11, -0.24);
+  s.bezierCurveTo(-2.11, -0.38, -1.99, -IN_F, -1.81, -IN_F);               // back-left corner
+  s.lineTo(IN_R - 0.15, -IN_F);                                           // back face
+  s.quadraticCurveTo(IN_R, -IN_F, IN_R, -IN_F + 0.15);                    // back-right corner
+  s.lineTo(IN_R, IN_F - 0.15);                                            // right side
+  s.quadraticCurveTo(IN_R, IN_F, IN_R - 0.15, IN_F);                      // front-right corner
+  const depth = BODY_TOP - BODY_BOTTOM - 2 * RB;
+  const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: true, bevelThickness: RB, bevelSize: RB, bevelSegments: 14, curveSegments: 72 });
+  g.rotateX(Math.PI / 2);                  // shape (x, y) -> world (x, z); extrusion -> -y
+  g.translate(0, BODY_TOP - RB, 0);
+  add(rig, g, M.silver, 0, 0, 0);
+}
+const GRIP_BEVEL = RB;
+// point on the grip's front surface (u: 0 = where it meets the body, 1 = outer side) + outward normal
+function gripSurface(u) {
+  const c = u < 0.5 ? gripFront1 : gripFront2, t = u < 0.5 ? u * 2 : (u - 0.5) * 2;
+  const p = c.getPoint(t), d = c.getTangent(t);
+  const n = new THREE.Vector2(d.y, -d.x).normalize();
+  return { x: p.x + n.x * GRIP_BEVEL, z: p.y + n.y * GRIP_BEVEL, nx: n.x, nz: n.y };
+}
+// dotted rubber texture where the fingers hold the camera
+{
+  const rows = [], dots = [];
+  for (let y = -1.32, r = 0; y <= 0.78; y += 0.082, r++) rows.push([y, r]);
+  const steps = 15;
+  for (const [y, r] of rows) for (let i = 0; i <= steps; i++) {
+    const u = 0.38 + (i + (r % 2) * 0.5) / steps * 0.42;
+    if (u > 0.8) continue;
+    // keep the pad's edge soft: drop dots toward the top / bottom corners
+    const edge = Math.min((y + 1.32) / 0.25, (0.78 - y) / 0.25, 1);
+    if (edge < 1 && ((i * 7 + r * 3) % 5) / 5 > edge) continue;
+    dots.push([gripSurface(u), y]);
+  }
+  const dot = new THREE.SphereGeometry(0.026, 12, 8);
+  const rubber = new THREE.MeshPhysicalMaterial({ color: 0x1c1d1f, metalness: 0.1, roughness: 0.7 });
+  const im = new THREE.InstancedMesh(dot, rubber, dots.length);
+  const o = new THREE.Object3D();
+  dots.forEach(([s, y], k) => {
+    o.position.set(s.x, y, s.z);
+    o.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), new THREE.Vector3(s.nx, 0, s.nz));
+    o.scale.set(1, 1, 0.55);
+    o.updateMatrix(); im.setMatrixAt(k, o.matrix);
+  });
+  rig.add(im);
+}
+add(rig, rbox(3.1, 2.45, 0.08, 0.04), M.black, 0.45, -0.15, -0.74);             // rear LCD (folded)
+// right side: vari-angle screen hinge, terminal cover, strap eyelet
+add(rig, rbox(0.3, 2.6, 1.15, 0.13), M.satin, 2.47, -0.2, -0.05);
+for (const y of [0.85, -1.25]) { const k = add(rig, new THREE.CylinderGeometry(0.1, 0.1, 0.34, 32), M.chrome, 2.63, y, 0.42); }
+add(rig, rbox(0.06, 0.95, 0.5, 0.025), M.matte, 2.63, -0.2, -0.22);
+const eyelet = add(rig, new THREE.TorusGeometry(0.11, 0.035, 12, 32), M.chrome, 2.52, 1.12, -0.45); eyelet.rotation.y = Math.PI / 2;
+
+// ---------- top plate ----------
+const TOP = 1.4;
+// shutter assembly on top of the grip: raised plinth, ridged zoom lever ring with a thumb tab,
+// W / T marks, a dark gap ring and a domed chrome shutter button
+const GRIP_TOP = BODY_TOP, SX = -1.66, SZ = 0.3;
+add(rig, latheY([[0, 0.05], [0.47, 0.05], [0.52, 0.02], [0.53, 0]]), M.satin, SX, GRIP_TOP, SZ);
+const zoomRing = add(rig, latheY([[0.31, 0], [0.43, 0], [0.45, 0.03], [0.44, 0.09], [0.38, 0.115], [0.31, 0.105]]), M.chrome, SX, GRIP_TOP + 0.05, SZ);
+const ridges = new THREE.InstancedMesh(new THREE.BoxGeometry(0.02, 0.07, 0.04), M.satin, 40);
+{ const d = new THREE.Object3D(); for (let i = 0; i < 40; i++) { const a = (i / 40) * Math.PI * 2; d.position.set(SX + Math.cos(a) * 0.445, GRIP_TOP + 0.09, SZ + Math.sin(a) * 0.445); d.rotation.y = -a; d.updateMatrix(); ridges.setMatrixAt(i, d.matrix); } }
+rig.add(ridges);
+const lever = new THREE.Group(); lever.position.set(SX, GRIP_TOP + 0.08, SZ); lever.rotation.y = -0.95; rig.add(lever);
+add(lever, rbox(0.24, 0.07, 0.14, 0.03), M.chrome, 0.53, 0, 0);
+for (let i = -1; i <= 1; i++) add(lever, new THREE.BoxGeometry(0.015, 0.02, 0.12), M.satin, 0.53 + i * 0.05, 0.04, 0);
+add(rig, new THREE.TorusGeometry(0.3, 0.014, 10, 64).rotateX(Math.PI / 2), M.black, SX, GRIP_TOP + 0.13, SZ);
+const shutter = add(rig, latheY([[0, 0.1], [0.1, 0.098], [0.2, 0.082], [0.26, 0.05], [0.28, 0.0]]), M.chrome, SX, GRIP_TOP + 0.115, SZ);
+const SHUTTER_Y = shutter.position.y;
+// mode dial with knurled edge and printed modes (sized like the real one: a bit smaller than the grip)
+const dialTop = canvasTex(512, 512, (x, w) => {
+  x.fillStyle = '#c4c5c8'; x.fillRect(0, 0, w, w);
+  x.translate(w / 2, w / 2);
+  const modes = ['AUTO', 'P', 'Tv', 'Av', 'M', 'C', 'SCN', '▣', '◑', '★', '▲', '☾'];
+  x.fillStyle = '#26272a'; x.font = '700 40px Helvetica, Arial'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  modes.forEach((m, i) => { const a = (i / modes.length) * Math.PI * 2; x.save(); x.rotate(a); x.fillText(m, 0, -180); x.restore(); });
+  x.strokeStyle = '#8d8f93'; x.lineWidth = 4; x.beginPath(); x.arc(0, 0, 120, 0, Math.PI * 2); x.stroke();
+  x.fillStyle = '#b2b4b7'; x.beginPath(); x.arc(0, 0, 70, 0, Math.PI * 2); x.fill();
+});
+const DX = -0.42, DZ = -0.2, DR = 0.44;
+add(rig, new THREE.CylinderGeometry(DR + 0.05, DR + 0.05, 0.04, 64), M.dark, DX, TOP + 0.02, DZ);
+add(rig, new THREE.CylinderGeometry(DR, DR, 0.15, 96), [M.satin, new THREE.MeshPhysicalMaterial({ map: dialTop, metalness: 0.6, roughness: 0.35 }), M.satin], DX, TOP + 0.115, DZ);
+const knurl = new THREE.InstancedMesh(new THREE.BoxGeometry(0.03, 0.12, 0.025), M.satin, 60);
+{ const d = new THREE.Object3D(); for (let i = 0; i < 60; i++) { const a = (i / 60) * Math.PI * 2; d.position.set(DX + Math.cos(a) * (DR + 0.005), TOP + 0.115, DZ + Math.sin(a) * (DR + 0.005)); d.rotation.y = -a; d.updateMatrix(); knurl.setMatrixAt(i, d.matrix); } }
+rig.add(knurl);
+// small index mark in front of the dial
+add(rig, new THREE.BoxGeometry(0.02, 0.01, 0.08), M.black, DX, TOP + 0.003, DZ + DR + 0.1);
+// power button + green LED + labels
+add(rig, rbox(0.48, 0.1, 0.24, 0.05), M.chrome, 0.72, TOP + 0.03, 0.3);
+add(rig, new THREE.SphereGeometry(0.035, 16, 12), new THREE.MeshStandardMaterial({ color: 0x2b6e3a, emissive: 0x2bd06a, emissiveIntensity: 0.6 }), 0.36, TOP + 0.01, 0.42);
+const textTop = (t, w, h, size, opts = {}) => canvasTex(w, h, (x) => {
+  if (opts.plate) { x.fillStyle = '#ecece8'; x.beginPath(); x.roundRect(4, 4, w - 8, h - 8, h / 2); x.fill(); x.strokeStyle = '#9a9ca0'; x.lineWidth = 3; x.stroke(); }
+  x.fillStyle = opts.color || '#2a2b2e'; x.font = `${opts.weight || 700} ${size}px ${opts.font || 'Helvetica, Arial'}`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(t, w / 2, h / 2 + 2);
+});
+decal(rig, textTop('ON/OFF', 256, 64, 40), 0.42, 0.105, [0.72, TOP + 0.003, 0.08], [-Math.PI / 2, 0, 0]);
+decal(rig, textTop('14 Shooting Modes', 640, 120, 60, { plate: true, weight: 600 }), 1.15, 0.22, [1.65, TOP + 0.003, 0.05], [-Math.PI / 2, 0, 0]);
+
+// ---------- front details ----------
+decal(rig, textTop('Poor Image', 512, 128, 92, { font: '"Redaction 50", Georgia, serif', color: '#3a3b3e' }), 0.8, 0.2, [-0.16, 1.1, FRONT + 0.002]);
+{ // model name, standing on the curve of the grip next to the dotted pad
+  const s = gripSurface(0.27);
+  decal(rig, canvasTex(160, 1024, (x, w, h) => { x.translate(w / 2, h / 2); x.rotate(-Math.PI / 2); x.fillStyle = '#2c2d30'; x.font = 'italic 700 92px Georgia, serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('PoorShot A09', 0, 4); }),
+    0.16, 1.05, [s.x + s.nx * 0.004, -0.15, s.z + s.nz * 0.004], [0, Math.atan2(s.nx, s.nz), 0]);
+}
+decal(rig, canvasTex(512, 200, (x, w) => { x.fillStyle = '#2b3240'; x.textAlign = 'center'; x.font = '800 96px Helvetica, Arial'; x.fillText('5.0', w / 2, 92); x.font = '700 44px Helvetica, Arial'; x.fillText('MEGA PIXELS', w / 2, 160); }),
+  0.62, 0.24, [1.78, -1.3, FRONT + 0.002]);
+// viewfinder window
+add(rig, rbox(0.56, 0.44, 0.1, 0.06), M.dark, 0.75, 1.07, FRONT + 0.02);
+add(rig, rbox(0.4, 0.3, 0.06, 0.04), M.black, 0.75, 1.07, FRONT + 0.06);
+add(rig, new THREE.CircleGeometry(0.1, 32), M.glass, 0.75, 1.07, FRONT + 0.092);
+// flash: silver bezel + fresnel window + glow
+const fresnel = canvasTex(512, 192, (x, w, h) => {
+  x.fillStyle = '#dedcd2'; x.fillRect(0, 0, w, h);
+  for (let i = 0; i < w; i += 14) { x.fillStyle = 'rgba(120,118,108,0.55)'; x.fillRect(i, 0, 3, h); x.fillStyle = 'rgba(255,255,250,0.6)'; x.fillRect(i + 4, 0, 2, h); }
+  x.fillStyle = 'rgba(255,255,250,0.5)'; x.fillRect(0, h / 2 - 3, w, 6);
+});
+const flashMat = new THREE.MeshPhysicalMaterial({ map: fresnel, emissiveMap: fresnel, emissive: 0xffffff, emissiveIntensity: 0, roughness: 0.2, metalness: 0.1, clearcoat: 1 });
+add(rig, rbox(0.96, 0.44, 0.08, 0.05), M.satin, 1.62, 1.0, FRONT + 0.02);
+add(rig, rbox(0.86, 0.33, 0.06, 0.03), flashMat, 1.62, 1.0, FRONT + 0.05);
+const glowTex = canvasTex(256, 256, (x, w) => { const g = x.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.25, 'rgba(255,255,255,0.75)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, w, w); });
+const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, blending: THREE.AdditiveBlending, transparent: true, opacity: 0, depthWrite: false }));
+glow.position.set(1.62, 1.0, FRONT + 0.25); rig.add(glow);
+const flashLight = new THREE.PointLight(0xffffff, 0, 25); flashLight.position.set(1.62, 1.0, FRONT + 1.2); rig.add(flashLight);
+// AF-assist lamp, self-timer LED, microphone
+add(rig, rbox(0.22, 0.22, 0.06, 0.1), M.satin, 1.74, 0.5, FRONT + 0.01);
+add(rig, new THREE.CircleGeometry(0.075, 32), M.glass, 1.74, 0.5, FRONT + 0.045);
+add(rig, new THREE.CircleGeometry(0.035, 24), new THREE.MeshStandardMaterial({ color: 0x3a1010, emissive: 0x902020, emissiveIntensity: 0.3 }), 1.3, 0.66, FRONT + 0.003);
+for (let i = 0; i < 4; i++) add(rig, new THREE.CircleGeometry(0.018, 12), M.black, -0.42 + i * 0.07, 0.8, FRONT + 0.003);
+
+// ---------- telescoping zoom lens ----------
+const lens = new THREE.Group(); lens.position.set(0.35, -0.22, FRONT); rig.add(lens);
+add(lens, latheZ([[0.9, 0], [1.12, 0], [1.12, 0.05], [1.08, 0.12], [0.98, 0.16], [0.9, 0.16]]), M.chrome);   // flange
+add(lens, latheZ([[0.885, -0.3], [0.885, 0.16]]), M.black);                                                  // dark gap
+const stage1 = new THREE.Group(), stage2 = new THREE.Group(), stage3 = new THREE.Group();
+lens.add(stage1); stage1.add(stage2); stage2.add(stage3);
+add(stage1, latheZ([[0.86, -0.6], [0.86, -0.02], [0.84, 0.03], [0.77, 0.045], [0.75, 0.0]]), M.silver);
+add(stage2, latheZ([[0.74, -0.6], [0.74, -0.02], [0.72, 0.03], [0.67, 0.045], [0.65, 0.0]]), M.satin);
+add(stage3, latheZ([[0.66, -0.55], [0.66, 0.0]]), M.silver);
+add(stage3, latheZ([[0.66, 0.0], [0.66, 0.06], [0.62, 0.1], [0.44, 0.1], [0.42, 0.08]]), M.black);
+add(stage3, latheZ([[0.42, 0.08], [0.4, -0.06], [0.3, -0.1]]), M.matte);
+const ringTex = canvasTex(1024, 1024, (x, w) => {
+  x.translate(w / 2, w / 2);
+  const text = 'POOR IMAGE ZOOM LENS 3x   7.8–23.4 mm  1:2.8–4.9   ';
+  x.fillStyle = 'rgba(232,232,232,0.92)'; x.font = '600 40px Helvetica, Arial'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  const R = 0.535 / 0.62 * (w / 2);
+  const widths = [...text].map(ch => x.measureText(ch).width + 3);
+  let a = -(widths.reduce((s, v) => s + v, 0) / R) / 2;
+  [...text].forEach((ch, i) => { const da = widths[i] / R; x.save(); x.rotate(a + da / 2); x.fillText(ch, 0, -R); x.restore(); a += da; });
+});
+const ring = new THREE.Mesh(new THREE.RingGeometry(0.45, 0.62, 128), new THREE.MeshBasicMaterial({ map: ringTex, transparent: true, polygonOffset: true, polygonOffsetFactor: -4, depthWrite: false }));
+ring.position.z = 0.101; stage3.add(ring);
+add(stage3, new THREE.TorusGeometry(0.425, 0.012, 12, 96), M.chrome, 0, 0, 0.085);
+const capAngle = Math.asin(0.4 / 0.9);
+const glassGeo = new THREE.SphereGeometry(0.9, 64, 24, 0, Math.PI * 2, 0, capAngle); glassGeo.rotateX(Math.PI / 2);
+add(stage3, glassGeo, M.glass, 0, 0, -0.1 - 0.9 * Math.cos(capAngle));
+add(stage3, new THREE.TorusGeometry(0.26, 0.008, 8, 64), M.dark, 0, 0, -0.06);
+const OPEN = [0.5, 0.48, 0.42];
+function setLens(e) {
+  const s = k => Math.max(0, Math.min(1.15, (e - k * 0.25) / 0.5));
+  stage1.position.z = 0.08 + OPEN[0] * s(0);
+  stage2.position.z = OPEN[1] * s(1);
+  stage3.position.z = OPEN[2] * s(2);
+  stage3.rotation.z = s(2) * 0.5;
+}
+
+rig.rotation.set(0.1, -0.42, 0);
+
+// ---------- framing: fit the whole camera (lens out) in view ----------
+const FIT = 0.66;   // smaller = bigger camera on screen (the sphere fit is very cautious)
+const fit = new THREE.Sphere();
+setLens(1); rig.updateMatrixWorld(true); new THREE.Box3().setFromObject(rig).getBoundingSphere(fit); setLens(0);
+// The canvas is bigger than the camera's box (PAD on each side) so the flash glow can spread as a full
+// circle instead of being cut at the box edge. setViewOffset keeps the camera exactly where it was.
+const PAD_X = 0.3, PAD_Y = 0.6;
+function resize() {
+  const w = Math.max(1, host.clientWidth), h = Math.max(1, host.clientHeight);
+  const ex = Math.round(w * PAD_X), ey = Math.round(h * PAD_Y), W = w + 2 * ex, H = h + 2 * ey;
+  renderer.setSize(W, H, false);
+  Object.assign(renderer.domElement.style, { left: -ex + 'px', top: -ey + 'px', width: W + 'px', height: H + 'px' });
+  view.aspect = w / h;
+  const vf = THREE.MathUtils.degToRad(view.fov), hf = 2 * Math.atan(Math.tan(vf / 2) * view.aspect);
+  const d = fit.radius / Math.sin(Math.min(vf, hf) / 2) * FIT;
+  view.position.set(fit.center.x, fit.center.y + d * 0.06, fit.center.z + d);
+  view.lookAt(fit.center);
+  view.setViewOffset(w, h, -ex, -ey, W, H);
+  view.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+resize();
+
+// ---------- interaction ----------
+const st = { mx: 0, my: 0, lens: 0, vel: 0, target: 0, flash: 0, press: 0, twitch: 0, face: false };
+// hovering (or keyboard-focusing) one of the three buttons turns the camera to face the viewer
+for (const id of ['btnCamera', 'btnUpload', 'btnGenerate']) {
+  const b = document.getElementById(id);
+  b.addEventListener('pointerenter', () => { st.face = true; });
+  b.addEventListener('pointerleave', () => { st.face = false; });
+  b.addEventListener('focus', () => { st.face = true; });
+  b.addEventListener('blur', () => { st.face = false; });
+}
+const clampN = (v, a, b) => Math.min(b, Math.max(a, v));
+addEventListener('pointermove', e => {
+  const b = host.getBoundingClientRect();
+  if (!b.width) return;
+  // left / right: measured from the middle of the screen (-1 left edge, 0 middle, 1 right edge)
+  st.mx = clampN((e.clientX - innerWidth / 2) / (innerWidth / 2), -1, 1);
+  st.my = clampN((e.clientY - (b.top + b.height / 2)) / (b.height / 2), -1.5, 1.5);
+});
+host.addEventListener('click', () => document.getElementById('btnCamera').click());
+// phones (no mouse): the camera tilts with the phone itself. iOS asks for motion permission, which can only
+// be requested from a touch, so it's requested on the first touch anywhere.
+if (matchMedia('(hover: none)').matches) {
+  const onTilt = e => { if (e.gamma == null) return; st.mx = clampN(e.gamma / 30, -1, 1); st.my = clampN((e.beta - 50) / 30, -1.5, 1.5); };
+  const start = () => addEventListener('deviceorientation', onTilt);
+  const DOE = window.DeviceOrientationEvent;
+  if (DOE && typeof DOE.requestPermission === 'function') addEventListener('pointerdown', () => { DOE.requestPermission().then(r => { if (r === 'granted') start(); }).catch(() => {}); }, { once: true });
+  else start();
+}
+addEventListener('camera:shoot', () => { st.flash = 1; st.press = 1; st.twitch = 1; });
+let powerTimer = 0;
+function powerOn(delay) { clearTimeout(powerTimer); st.target = 0; powerTimer = setTimeout(() => { st.target = 1; }, delay); }
+addEventListener('camera:reset', () => { st.lens = 0; st.vel = 0; setLens(0); powerOn(700); });
+
+let visible = false, last = performance.now(), time = 0, poweredOnce = false;
+new IntersectionObserver(es => {
+  visible = es[0].isIntersecting;
+  if (visible) { resize(); last = performance.now(); requestAnimationFrame(tick); if (!poweredOnce) { poweredOnce = true; powerOn(350); } }
+}).observe(host);
+
+function tick(now) {
+  if (!visible || st.hold) return;      // st.hold: frozen by the test hook below
+  const dt = Math.min(0.05, (now - last) / 1000); last = now; time += dt;
+  const ease = k => 1 - Math.exp(-dt / k);
+  // facing the viewer: the lens (which sits right of the body's centre) points straight out
+  // turn: faces the viewer with the mouse in the middle of the screen, turns toward the mouse left or right
+  const ry = st.face ? 0 : st.mx * 0.75, rx = st.face ? 0.06 : 0.1 + st.my * 0.16;
+  rig.rotation.y += (ry - rig.rotation.y) * ease(st.face ? 0.22 : 0.25);
+  rig.rotation.x += (rx - rig.rotation.x) * ease(st.face ? 0.22 : 0.25);
+  rig.position.y = Math.sin(time * 1.1) * 0.05;
+  // lens: a springy power-on, then it stays out
+  st.vel += ((st.target - st.lens) * 55 - st.vel * 9) * dt;
+  st.lens += st.vel * dt;
+  st.twitch = Math.max(0, st.twitch - dt * 3);
+  setLens(st.lens);
+  stage3.position.z += Math.sin(st.twitch * Math.PI) * 0.05;
+  // shutter press + flash
+  st.press = Math.max(0, st.press - dt * 5);
+  shutter.position.y = SHUTTER_Y - 0.04 * Math.sin(st.press * Math.PI);
+  st.flash = Math.max(0, st.flash - dt * 2.2);
+  const f = Math.pow(st.flash, 1.4);
+  flashMat.emissiveIntensity = f * 9;
+  glow.material.opacity = f;
+  glow.scale.setScalar(1.5 + f * 5);
+  flashLight.intensity = f * 90;
+  renderer.render(scene, view);
+  requestAnimationFrame(tick);
+}
+// test hook: render one frame with the lens out, the mouse at mx (-1..1) and the flash at strength f
+window.__cam3d = { shot(f = 0, mx = 0) {
+  st.hold = true; resize(); st.lens = 1; setLens(1); rig.rotation.set(0.1, mx * 0.75, 0);
+  const k = Math.pow(f, 1.4); flashMat.emissiveIntensity = k * 9; glow.material.opacity = k; glow.scale.setScalar(1.5 + k * 5); flashLight.intensity = k * 90;
+  renderer.render(scene, view);
+} };
+</script>
+</body>
+</html>
