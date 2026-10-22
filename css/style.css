@@ -219,6 +219,11 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
   :root { --pad: 24px; --head-h: calc(66px + env(safe-area-inset-top)); }
   .site-header { padding: calc(18px + env(safe-area-inset-top)) 24px 26px; }
   .bottom-fade { height: calc(56px + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%); }
+  /* Safari can leave a strip above the header and below the fade after a jump (Index, or arriving from About)
+     while it shrinks its bars: a solid black extension past each edge fills it (off screen the rest of the time) */
+  .site-header::before, .bottom-fade::after { content: ''; position: absolute; left: 0; right: 0; height: 200px; background: var(--paper); pointer-events: none; }
+  .site-header::before { bottom: 100%; }
+  .bottom-fade::after { top: 100%; }
   .wordmark, .marks-left, .marks-center, .site-nav { display: none !important; }
   /* header A */
   .phone-marks { display: block; width: 72px; line-height: 0; }
