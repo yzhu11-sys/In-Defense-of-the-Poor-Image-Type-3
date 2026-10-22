@@ -1,0 +1,289 @@
+/* Redaction grades: 70 (most broken) -> 10 (clearest). Each grade has the same letter widths, so the
+   hover can swap grades letter by letter without the text moving. */
+@font-face { font-family: 'Redaction 10'; src: url('../assets/fonts/Redaction10-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 10'; src: url('../assets/fonts/Redaction10-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: block; }
+@font-face { font-family: 'Redaction 10'; src: url('../assets/fonts/Redaction10-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 20'; src: url('../assets/fonts/Redaction20-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 20'; src: url('../assets/fonts/Redaction20-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: block; }
+@font-face { font-family: 'Redaction 20'; src: url('../assets/fonts/Redaction20-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 35'; src: url('../assets/fonts/Redaction35-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 35'; src: url('../assets/fonts/Redaction35-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: block; }
+@font-face { font-family: 'Redaction 35'; src: url('../assets/fonts/Redaction35-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 50'; src: url('../assets/fonts/Redaction50-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 50'; src: url('../assets/fonts/Redaction50-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: block; }
+@font-face { font-family: 'Redaction 50'; src: url('../assets/fonts/Redaction50-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 70'; src: url('../assets/fonts/Redaction70-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: 'Redaction 70'; src: url('../assets/fonts/Redaction70-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: block; }
+
+/* Sizes follow the 1920 px Figma sketch: 1 --u = 1 px at 1920 wide */
+:root {
+  --u: calc(100vw / 1920);
+  --pad: max(16px, calc(90 * var(--u)));
+  --ink: #fff;
+  --paper: #000;
+  --mono: 'JetBrains Mono', monospace;
+  /* the header's height (its padding + the wordmark's line); the bottom fade uses the same height */
+  --head-h: calc(max(16px, calc(59 * var(--u))) + max(28px, calc(70 * var(--u))) + 1.2 * max(15px, calc(36 * var(--u))));
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font-family: 'Redaction 50', serif; -webkit-font-smoothing: antialiased; }
+/* the ASCII canvases must use the default smoothing, or the hover characters render thinner than the settled version */
+canvas { -webkit-font-smoothing: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- header (sticky, fades out at the bottom) ---------- */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: max(16px, calc(59 * var(--u))) var(--pad) max(28px, calc(70 * var(--u)));
+  background: linear-gradient(to bottom, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
+  pointer-events: none;
+}
+.site-header > * { pointer-events: auto; }
+.wordmark { font: 700 max(15px, calc(36 * var(--u)))/1.2 'Redaction 50', serif; color: var(--ink); text-decoration: none; white-space: nowrap; }
+/* both mark sets sit on the wordmark's line (the header's top and bottom padding differ) */
+.marks { position: absolute; top: 50%; margin-top: calc((max(16px, calc(59 * var(--u))) - max(28px, calc(70 * var(--u)))) / 2); }
+.marks svg { display: block; height: auto; }
+/* state A: five marks on the left, in the wordmark's place (the wordmark keeps its space, hidden) */
+.marks-left { left: var(--pad); transform: translateY(-50%); }
+.marks-left svg { width: max(110px, calc(421 * var(--u))); }
+/* state B: three marks exactly in the middle of the page, same mark size and spacing */
+.marks-center { left: 50%; transform: translate(-50%, -50%); pointer-events: none !important; }
+.marks-center svg { width: max(57px, calc(219 * var(--u))); }
+/* the swap between the two states is a 0.4 s crossfade */
+.wordmark, .marks { transition: opacity .4s ease; }
+.state-a .wordmark, .state-a .marks-center, .state-b .marks-left { opacity: 0; pointer-events: none; }
+.state-a .marks-left, .state-b .wordmark, .state-b .marks-center { opacity: 1; }
+/* "About" ends at the same page margin the wordmark starts at; "Text" sits 180 design px before it */
+.site-nav { display: flex; gap: max(20px, calc(180 * var(--u))); }
+/* 26 design px (was 32): the mono reads larger than the serif wordmark at the same size */
+.site-nav a { font: 700 max(13px, calc(26 * var(--u)))/1.2 var(--mono); color: var(--ink); text-decoration: none; }
+.site-nav a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+/* "Text" is a label: it only opens the section menu */
+.site-nav .nav-label { font: 700 max(13px, calc(26 * var(--u)))/1.2 var(--mono); color: var(--ink); background: none; border: 0; padding: 0; cursor: default; }
+.site-nav .nav-label:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+/* the mono "t" carries ~0.07em of empty space after its ink; pull it out so the visible edges match */
+.site-nav > a:last-child { margin-right: -0.071em; }
+/* "Text" dropdown: the three sections, lined up under "Text" */
+.nav-text { position: relative; }
+.nav-menu { position: absolute; left: 0; top: 100%; margin: 0; padding: max(10px, calc(18 * var(--u))) 0 0; list-style: none; white-space: nowrap;
+  opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
+.nav-text:hover .nav-menu, .nav-text:focus-within .nav-menu { opacity: 1; visibility: visible; transform: none; transition: opacity .18s ease, transform .18s ease; }
+.site-nav .nav-menu a { display: block; font: 400 max(12px, calc(20 * var(--u)))/1.7 var(--mono); background: var(--paper); padding: 0 8px; margin-left: -8px; }
+/* on the camera screen Text and About are not shown at all; they fade in when the image starts arriving */
+.site-nav > a, #navText { transition: opacity .4s ease; }
+html.locked .bottom-fade { display: none; }
+html.skip body { visibility: hidden; }
+html.skip .intro { display: none; }
+html.cam-screen .site-nav > a, html.cam-screen #navText { opacity: 0; pointer-events: none; }
+html.cam-screen .nav-menu { display: none; }
+
+/* the bottom edge mirrors the header's black fade, flipped, at 30% of its height; hidden on the camera screen */
+.bottom-fade { position: fixed; left: 0; right: 0; bottom: 0; height: calc(var(--head-h) * 0.3); z-index: 29; pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%); }
+
+/* scrolling stays locked until an image is picked */
+html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
+
+/* ---------- intro: camera + buttons (sits in the stage, replaced by the card) ---------- */
+.intro { position: absolute; inset: 0; z-index: 2; padding-top: max(80px, calc(140 * var(--u))); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.intro.gone { display: none; }
+.camera3d { width: min(calc(100vw - 2 * var(--pad)), calc(1292 * var(--u))); height: min(55vh, max(300px, calc(596 * var(--u)))); cursor: pointer; }
+/* the canvas is larger than the box (sized in js) so the flash glow is never cut off; clicks go to the box */
+.camera3d { position: relative; }
+.camera3d canvas { position: absolute; display: block; pointer-events: none; }
+.actions { display: flex; gap: max(14px, calc(112 * var(--u))); margin-top: max(28px, calc(68 * var(--u))); flex-wrap: wrap; justify-content: center; }
+/* pixel-cut button frame, rebuilt from the Figma component: 4 px grey bars, a single grey pixel
+   stepped in at each corner, text 16 px from the side bars. A 5x5 "pixel" SVG is 9-sliced, so the
+   frame stretches to any label. --p is one design pixel (4 px at 1920 wide). */
+.actions button {
+  --p: max(2px, calc(4 * var(--u)));
+  font: 400 max(15px, calc(32 * var(--u)))/1.1875 'Redaction 50', serif;
+  color: var(--ink); background: none;
+  border: calc(2 * var(--p)) solid transparent;
+  border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='5' shape-rendering='crispEdges'%3E%3Cpath fill='%23d9d9d9' d='M2 0h1v1H2zM2 4h1v1H2zM0 2h1v1H0zM4 2h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM1 3h1v1H1zM3 3h1v1H3z'/%3E%3C/svg%3E") 2 fill / calc(2 * var(--p)) stretch;
+  padding: 0 calc(3 * var(--p));
+  cursor: pointer;
+}
+/* hover: the inside of the frame fills white (following the stepped corners), text turns black */
+.actions button:hover, .actions button:focus-visible {
+  color: var(--paper); outline: none;
+  border-image-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='5' shape-rendering='crispEdges'%3E%3Cpath fill='%23d9d9d9' d='M2 0h1v1H2zM2 4h1v1H2zM0 2h1v1H0zM4 2h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM1 3h1v1H1zM3 3h1v1H3z'/%3E%3Cpath fill='%23ffffff' d='M2 1h1v3H2zM1 2h3v1H1z'/%3E%3C/svg%3E");
+}
+
+/* ---------- flow: card -> title -> credit ---------- */
+#flow { position: relative; height: 460vh; }
+.stage { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; place-items: center; }
+.card-wrap { position: absolute; left: 0; top: 0; perspective: 1800px; display: none; }
+.card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.back { background: #fff; display: flex; justify-content: center; align-items: flex-start; padding-top: 6%; }
+.back svg { width: 22%; height: auto; }
+.front { background: var(--paper); transform: rotateY(180deg); }
+.front canvas { display: block; width: 100%; height: 100%; cursor: crosshair; touch-action: pan-y; }
+/* the arrival: a black layer over the image, cleared one character cell at a time */
+.reveal { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; display: none; }
+#morph, #morphHi { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.title-block { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; pointer-events: none; }
+#title { opacity: 0; }
+#title svg { display: block; width: 100%; height: auto; }
+.credit { display: flex; justify-content: space-between; margin-top: max(18px, calc(55 * var(--u))); font: 700 max(14px, calc(36 * var(--u)))/1.2 'Redaction 35', serif; }
+.credit span { opacity: 0; transform: translateY(0.6em); }
+.hint { position: absolute; top: 0; left: 0; right: 0; margin: 0; text-align: center; font: 400 12px/1.4 var(--mono); opacity: 0; transition: opacity .4s; }
+
+/* ---------- essay (Figma "Slide 16:9 - 2", gap widened: 1352 wide = 476 side column + 120 gap + 756 body, centred) ---------- */
+:root { --sans: 'DM Sans', sans-serif; }
+.essay { width: min(calc(100vw - 2 * var(--pad)), calc(1352 * var(--u))); margin: 0 auto; padding: max(120px, calc(220 * var(--u))) 0 0; }
+.sec + .sec { margin-top: max(90px, calc(200 * var(--u))); }
+.sec-head { margin: 0 0 max(24px, calc(48 * var(--u))); font-weight: 400; line-height: 1.2; }
+.sec-num { display: block; font: 700 max(48px, calc(128 * var(--u)))/1.2 'Redaction 50', serif; }
+.sec-num b { font-weight: 700; }
+.sec-num i { font-weight: 400; font-style: italic; }
+.sec-title { display: block; font: 400 max(36px, calc(96 * var(--u)))/1.2 'Redaction 70', serif; text-transform: uppercase; }
+.sec-sub { display: block; font: 400 max(24px, calc(64 * var(--u)))/1.2 'Redaction 70', serif; text-transform: uppercase; }
+.cols { display: grid; grid-template-columns: calc(476 / 1352 * 100%) 1fr; column-gap: calc(120 / 1352 * 100%); align-items: start; }
+.side { position: relative; }
+.ascii-fig { margin: 0; background: var(--paper); }
+.ascii-fig canvas { display: block; width: 100%; cursor: crosshair; touch-action: pan-y; }   /* sideways drags move the lens, vertical ones scroll */
+/* space reserved before the photos load, so section positions are final straight away */
+.ascii-fig.tall { aspect-ratio: 800 / 1200; }
+.ascii-fig.wide { aspect-ratio: 1272 / 716; }
+.ascii-fig.wide { margin-bottom: max(24px, calc(48 * var(--u))); }
+/* 3 rows x 6 marks spread edge to edge, exactly like the Figma auto layout (476 x 113) */
+.stars { margin-top: max(20px, calc(40 * var(--u))); aspect-ratio: 476 / 113; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='476' height='113' viewBox='0 0 476 113'%3E%3Cpath id='m' fill='%23fff' d='M10.2 0V6.8H6.8V0H10.2ZM17 3.4V6.8H13.6V3.4H17ZM0 3.4H3.4V6.8H0V3.4ZM13.6 6.8V10.2H10.2V6.8H13.6ZM3.4 6.8H6.8V10.2H3.4V6.8ZM10.2 10.2V17H6.8V10.2H10.2ZM17 10.2V13.6H13.6V10.2H17ZM0 10.2H3.4V13.6H0V10.2Z'/%3E%3Cuse href='%23m' x='0.0' y='0'/%3E%3Cuse href='%23m' x='91.8' y='0'/%3E%3Cuse href='%23m' x='183.6' y='0'/%3E%3Cuse href='%23m' x='275.4' y='0'/%3E%3Cuse href='%23m' x='367.2' y='0'/%3E%3Cuse href='%23m' x='459.0' y='0'/%3E%3Cuse href='%23m' x='0.0' y='48'/%3E%3Cuse href='%23m' x='91.8' y='48'/%3E%3Cuse href='%23m' x='183.6' y='48'/%3E%3Cuse href='%23m' x='275.4' y='48'/%3E%3Cuse href='%23m' x='367.2' y='48'/%3E%3Cuse href='%23m' x='459.0' y='48'/%3E%3Cuse href='%23m' x='0.0' y='96'/%3E%3Cuse href='%23m' x='91.8' y='96'/%3E%3Cuse href='%23m' x='183.6' y='96'/%3E%3Cuse href='%23m' x='275.4' y='96'/%3E%3Cuse href='%23m' x='367.2' y='96'/%3E%3Cuse href='%23m' x='459.0' y='96'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; }
+/* body: 26 design px = ~19.5 px on a 1440 MacBook (common reading size 18-21 px), 140% line spacing */
+.body { font: 400 max(16px, calc(26 * var(--u)))/1.4 var(--sans); }
+.body p { margin: 0; }
+.body p + p { margin-top: 1.4em; }
+.body em { font-family: 'Redaction 70', serif; font-style: italic; font-weight: 400; text-transform: uppercase; }
+.ref { font-family: var(--mono); font-weight: 700; color: inherit; text-decoration: none; }
+/* footnotes: js/essay.js sets each one's top so it starts level with the paragraph that cites it */
+.note { margin: 0; }
+.side .note { position: absolute; left: 0; right: 0; }
+.note-num { display: block; font: 700 max(16px, calc(26 * var(--u)))/1.4 var(--mono); margin-bottom: max(6px, calc(12 * var(--u))); }
+.note-text { display: block; font: 400 max(13px, calc(20 * var(--u)))/1.4 var(--sans); }
+/* the closing quote fills the last screen and sits in its middle: scrolled to the bottom, only the quote shows */
+.closing { min-height: 100vh; box-sizing: border-box; padding: var(--head-h) 0; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+.quote { margin: 0 auto; max-width: calc(1054 / 1352 * 100%); font: 700 max(30px, calc(87 * var(--u)))/1.2 'Redaction 50', serif; text-transform: uppercase; letter-spacing: 0.02em; }
+.quote .open-q { letter-spacing: 0.08em; }
+.attrib { margin: max(24px, calc(50 * var(--u))) 0 0; font: 700 max(14px, calc(32 * var(--u)))/1.2 var(--mono); }
+/* the pixelated / decoding copy of a word is a small canvas inside the word itself (so it scrolls with it);
+   the real letters underneath turn see-through */
+.fx-host { position: relative; }
+.fx-ov { position: absolute; left: 0; top: 0; pointer-events: none; image-rendering: pixelated; }
+.px-hide { color: transparent !important; }
+.fx-word { white-space: nowrap; }
+.fx-ch { display: inline-block; }
+
+/* ---------- camera capture + flash ---------- */
+.veil { position: fixed; inset: 0; background: #000; z-index: 25; pointer-events: none; opacity: 0; }
+.flash { position: fixed; inset: 0; background: #fff; z-index: 50; pointer-events: none; opacity: 0; }
+.cam { position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.92); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; }
+/* the live preview is cut to exactly the shape of the final card */
+.cam-frame { overflow: hidden; background: #111; }
+.cam-frame video { display: block; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+.cam .actions { margin-top: 0; }
+.cam-msg { font: 400 12px/1.5 var(--mono); opacity: .8; text-align: center; max-width: 520px; margin: 0; }
+
+@media (max-width: 700px) {
+  .marks-center { display: none; }   /* no room in the middle; the left marks stay (they're the reset in state A) */
+  .site-nav { margin-right: 0; }
+  .actions { flex-direction: column; align-items: center; }
+}
+
+/* ---------- About page: same centred 1352 block; the title and bio sit in the right (body) column ---------- */
+.about { width: min(calc(100vw - 2 * var(--pad)), calc(1352 * var(--u))); margin: 0 auto; }
+.about-intro { padding-top: calc(var(--head-h) * 0.85 + 1.2 * max(48px, calc(128 * var(--u)))); }
+/* "Hito Steyerl" = the essay's section-title line (Redaction 70, 96, uppercase), placed where "INTRODUCTION"
+   sits when you jump to #0: 0.85 of the header's height + the "#0" line above it */
+.about-title { margin: 0 0 max(24px, calc(48 * var(--u))); font: 400 max(36px, calc(96 * var(--u)))/1.2 'Redaction 70', serif; text-transform: uppercase; }
+.about .body i { font-style: italic; }
+/* the colophon fills the screen and sits in its middle, so the bio is fully off screen when it's centred */
+.colophon { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--head-h) 0; box-sizing: border-box; }
+.colophon-inner { width: min(100%, calc(790 * var(--u)), 100%); min-width: min(100%, 560px); }
+.colophon h2 { margin: 0 0 max(18px, calc(32 * var(--u))); font: 700 max(16px, calc(26 * var(--u)))/1.4 var(--mono); }
+.colo-row { display: grid; grid-template-columns: max(110px, calc(240 * var(--u))) 1fr; column-gap: max(12px, calc(24 * var(--u))); margin: 0; }
+.colo-row + .colo-row { margin-top: max(8px, calc(16 * var(--u))); }
+.colo-label { font: 700 max(13px, calc(20 * var(--u)))/1.4 var(--mono); }
+.colo-value { font: 400 max(13px, calc(20 * var(--u)))/1.4 var(--sans); }
+
+/* =====================================================================================================
+   PHONE (≤ 600 px): one column, header A (marks · current section · Index), footnotes in a bottom sheet.
+   Numbers follow the Figma phone frames (440 wide): 24 px margins, body 17/155%, headings 56 / 42.
+   ===================================================================================================== */
+.phone-marks, .cur-section, .index-btn, .index-menu, .note-screen { display: none; }
+@media (max-width: 600px) {
+  :root { --pad: 24px; --head-h: 66px; }
+  .site-header { padding: 18px 24px 26px; }
+  .wordmark, .marks-left, .marks-center, .site-nav { display: none !important; }
+  /* header A */
+  .phone-marks { display: block; width: 72px; line-height: 0; }
+  .phone-marks svg { width: 72px; height: auto; display: block; }
+  .cur-section { display: block; flex: 1; text-align: center; font: 400 12px/1.2 var(--mono); color: #999; padding: 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .index-btn { display: block; font: 700 14px/1.2 var(--mono); color: var(--ink); background: none; border: 0; padding: 14px 0 14px 14px; margin: -14px 0; cursor: pointer; }
+  .phone-marks, .cur-section, .index-btn { transition: opacity .4s ease; }
+  html.cam-screen .cur-section, html.cam-screen .index-btn { opacity: 0; pointer-events: none; }
+  /* the Index menu: full screen, under the header (so "Close" stays on top) */
+  .index-menu { position: fixed; inset: 0; z-index: 29; background: var(--paper); display: flex; flex-direction: column; gap: 22px; padding: 120px 24px calc(40px + env(safe-area-inset-bottom)); }
+  .index-menu[hidden] { display: none; }
+  .index-menu a { font: 700 20px/1.4 var(--mono); color: #8c8c8c; text-decoration: none; }
+  .index-menu a[aria-current] { color: var(--ink); }
+  .index-menu a[aria-current]::before { content: '→ '; }
+  html.menu-open, html.menu-open body { overflow: hidden; }
+
+  /* hero */
+  .intro { padding-top: 70px; }
+  .camera3d { width: calc(100vw - 48px); height: min(46vh, 320px); }
+  /* buttons exactly as the Figma phone frame: 4 px pixel bars, 20 px text, 16 px from bar to text, 40 tall */
+  .actions { gap: 18px; margin-top: 28px; }
+  .actions button { --p: 4px; font-size: 20px; line-height: 1.2; padding: 0 calc(3 * var(--p)); }
+  .credit { font-size: 18px; margin-top: 18px; }
+  .hint { font-size: 11px; }
+
+  /* the essay: one column — heading → photo (+ asterisks) → text */
+  .essay { width: calc(100vw - 48px); padding-top: 64px; }
+  .sec + .sec { margin-top: 72px; }
+  .sec-head { margin-bottom: 24px; }
+  .sec-num { font-size: 56px; }
+  .sec-title { font-size: 42px; }
+  .sec-sub { font-size: 28px; }
+  .cols { display: block; }
+  .side { min-height: 0 !important; }
+  .side .note { display: none; }                 /* footnotes open in the bottom sheet instead */
+  .ascii-fig.wide { margin-bottom: 28px !important; }   /* inside the margins, like the other photos */
+  .stars { margin: 20px 0 28px; }
+  .body { font-size: 17px; line-height: 1.55; }
+  .body p + p { margin-top: 1.55em; }
+  /* note numbers are tappable chips: underlined, with a ~44 px touch area that doesn't move the text */
+  .ref { text-decoration: underline; text-underline-offset: 3px; padding: 12px 4px; margin: -12px -4px; }
+  .closing { padding: 64px 0; }
+  .quote { font-size: 34px; max-width: none; }
+  .attrib { font-size: 15px; margin-top: 24px; }
+
+  /* About */
+  .about { width: calc(100vw - 48px); }
+  .about-intro { padding-top: 112px; padding-bottom: 48px; }
+  .about-title { font-size: 42px; margin-bottom: 28px; }
+  .about .cols .side { display: none; }
+  .colophon-inner { min-width: 0; width: 100%; }
+  .colophon h2 { font-size: 17px; margin-bottom: 20px; }
+  .colo-row { display: block; }
+  .colo-row + .colo-row { margin-top: 18px; }
+  .colo-label { display: block; font-size: 13px; margin-bottom: 4px; }
+  .colo-value { display: block; font-size: 15px; line-height: 1.45; }
+
+  /* a footnote: the whole screen goes black, showing the paragraph that cites it (dimmed, its note number
+     bright) and the note itself below; Close goes back to the text where you were */
+  .note-screen { display: block; position: fixed; inset: 0; z-index: 50; background: var(--paper); overflow-y: auto; overscroll-behavior: contain;
+    padding: 140px 24px calc(56px + env(safe-area-inset-bottom)); }
+  .note-screen[hidden] { display: none; }
+  .ns-close { position: absolute; top: 80px; right: 24px; font: 400 13px/1.4 var(--mono); color: #999; background: none; border: 0; padding: 12px; margin: -12px; cursor: pointer; }
+  .ns-para { margin: 0; font: 400 17px/1.55 var(--sans); color: rgba(255, 255, 255, .7); }
+  .ns-para em { font-family: 'Redaction 70', serif; font-style: italic; text-transform: uppercase; }
+  .ns-para .ref { color: inherit; pointer-events: none; }
+  .ns-para .ref.on { color: var(--ink); }
+  .ns-num { margin: 35px 0 8px; font: 700 17px/1.4 var(--mono); }
+  .ns-text { margin: 0; font: 400 15px/1.5 var(--sans); }
+  html.note-open, html.note-open body { overflow: hidden; }
+}
