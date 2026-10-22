@@ -171,7 +171,12 @@ async function startCard(source, crop, base = 0) {
 // the 3D camera's flash fires and the whole screen flashes white
 function flash() {
   dispatchEvent(new Event('camera:shoot'));
-  setTimeout(() => $('flash').animate([{ opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 0 }], { duration: 650, easing: 'ease-out' }), 90);
+  // the white layer only exists during the flash: Safari copies the colour of anything at the screen's bottom
+  // edge into its toolbar, and an always-present (invisible) white layer sometimes left that bar white
+  setTimeout(() => {
+    const f = $('flash'); f.style.display = 'block';
+    f.animate([{ opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 0 }], { duration: 650, easing: 'ease-out' }).onfinish = () => { f.style.display = ''; };
+  }, 90);
 }
 
 // a button was picked: flash, the camera + buttons disappear under the flash, the image arrives character by character
@@ -196,7 +201,7 @@ async function resetSite() {
   const veil = $('veil');
   await veil.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 280, easing: 'ease-in', fill: 'forwards' }).finished;
   closeCamera();
-  scrollTo(0, 0);
+  scrollPage(0);
   document.documentElement.classList.add('locked', 'cam-screen');
   card.getAnimations().forEach(a => a.cancel());
   cardWrap.style.display = 'none'; cardWrap.style.visibility = 'visible';
@@ -294,10 +299,10 @@ function setCredit(k) {
 }
 
 function onScroll() {
-  if (document.documentElement.classList.contains('locked') && scrollY !== 0) { scrollTo(0, 0); return; }
+  if (document.documentElement.classList.contains('locked') && pageY() !== 0) { scrollPage(0); return; }
   setHeaderState();
   const range = flow.offsetHeight - stageH();
-  const p = clamp((scrollY - flow.offsetTop) / range);
+  const p = clamp((pageY() - flow.offsetTop) / range);
   const t = clamp((p - 0.1) / 0.6);
   const canMorph = flipped && titleCells && cardView.data;
   if (!canMorph) { drawMorph(0); titleEl.style.opacity = 0; setCredit(0); return; }
@@ -366,7 +371,7 @@ $('fileInput').onchange = e => {
   rd.readAsDataURL(f);
   e.target.value = '';
 };
-addEventListener('scroll', onScroll, { passive: true });
+onPageScroll(onScroll);
 // Phone browsers change the window height while scrolling (their bars slide in and out). That's not a real
 // resize: the layout only follows width changes on touch screens, so nothing jumps or stretches.
 let lastW = innerWidth;
@@ -393,14 +398,14 @@ async function skipToSection(id) {
 // layout); stops as soon as the reader scrolls, clicks or types, or after 3 s
 function pinTo(id) {
   const head = document.getElementById(id);
-  scrollTo(0, head.getBoundingClientRect().top + scrollY - $('siteHeader').offsetHeight * 0.85);
+  scrollPage(head.getBoundingClientRect().top + pageY() - $('siteHeader').offsetHeight * 0.85);
 }
 const goTo = new URLSearchParams(location.search).get('go');
 let pinned = false;
 const skipping = goTo && document.getElementById(goTo);
 
 history.scrollRestoration = 'manual';
-scrollTo(0, 0);
+scrollPage(0);
 if (skipping) {
   $('intro').classList.add('gone');                      // never show the camera on the way
   history.replaceState(null, '', location.pathname);     // a reload starts at the camera again

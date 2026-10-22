@@ -183,7 +183,7 @@ const mctx = document.createElement('canvas').getContext('2d');
 const blocks = new Map();
 const BAND = '.body, .note, .colo-row';     // text blocks that use the 3-line band
 function measure() {
-  const sx = scrollX, sy = scrollY;
+  const sx = scrollX, sy = pageY();
   // text blocks that use the 3-line band: each paragraph column and each footnote
   blocks.clear();
   for (const b of essay.querySelectorAll(BAND)) {
@@ -262,7 +262,7 @@ addEventListener('pointerdown', e => { if (e.pointerType === 'touch') follow(e);
 ['pointerup', 'pointercancel'].forEach(t => addEventListener(t, e => { if (e.pointerType === 'touch') { L.target = 0; kick(); } }, { passive: true }));
 document.documentElement.addEventListener('mouseleave', () => { L.target = 0; kick(); });
 addEventListener('blur', () => { L.target = 0; kick(); });
-addEventListener('scroll', () => { if (L.amp > 0 || TOUCH.matches) kick(); }, { passive: true });
+onPageScroll(() => { if (L.amp > 0 || TOUCH.matches) kick(); });
 function kick() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
 
 function frame(now) {
@@ -278,7 +278,7 @@ function frame(now) {
 }
 
 function draw() {
-  const px = L.x + scrollX, py = L.y + scrollY, s = u();
+  const px = L.x + scrollX, py = L.y + pageY(), s = u();
   const Rp = Math.max(120, FX.pxRadius * s), Rc = Math.max(140, FX.clearRadius * s);
   // the band: which paragraph column / footnote the cursor is in, and the centre of the line it's on
   let active = null, lineY = 0;
@@ -312,12 +312,12 @@ function draw() {
     if (step !== c.step) { c.step = step; c.el.style.fontFamily = step ? `'Redaction ${c.grades[step]}'` : ''; }
   }
   // words: bigger pixel blocks the stronger the effect
-  const top = scrollY, bot = scrollY + innerHeight;
+  const top = pageY(), bot = top + viewH(), vh = viewH();
   for (const w of words) {
     let level = -1;
     if (w.y + w.h > top && w.y < bot) {
       // touch: lines low on the screen are pixelated and sharpen as they rise into the reading area
-      const v = TOUCH.matches ? (w.block ? smooth(innerHeight * 0.8, innerHeight * 0.97, w.cy - scrollY) : 0)
+      const v = TOUCH.matches ? (w.block ? smooth(vh * 0.8, vh * 0.97, w.cy - top) : 0)
                               : (L.amp > 0 ? strength(w.block, w.cx, w.cy, w.w / 2, w.f.lh, Rp) : 0);
       if (v > 0) level = FX.pxLevels.findIndex(([t]) => v >= t);
     }
@@ -373,11 +373,11 @@ if (window.IntersectionObserver) {
 let glideRaf = 0;
 function glideTo(y) {
   cancelAnimationFrame(glideRaf);
-  const y0 = scrollY, dy = Math.max(0, Math.min(y, document.documentElement.scrollHeight - innerHeight)) - y0, t0 = performance.now();
+  const y0 = pageY(), dy = Math.max(0, Math.min(y, scroller().scrollHeight - viewH())) - y0, t0 = performance.now();
   const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const step = now => {
     const t = Math.min(1, (now - t0) / FX.glideMs);
-    scrollTo(0, y0 + dy * ease(t));
+    scrollPage(y0 + dy * ease(t));
     if (t < 1) glideRaf = requestAnimationFrame(step);
   };
   glideRaf = requestAnimationFrame(step);
@@ -387,7 +387,7 @@ function glideTo(y) {
 function goSection(id) {
   if (document.documentElement.classList.contains('locked')) return;     // camera screen: nothing to scroll to yet
   const head = document.getElementById(id), header = document.getElementById('siteHeader');
-  glideTo(head.getBoundingClientRect().top + scrollY - header.offsetHeight * 0.85);
+  glideTo(head.getBoundingClientRect().top + pageY() - header.offsetHeight * 0.85);
 }
 // "Text" itself only opens this menu. On the main page the items glide; on the About page they open the
 // main page at that section (index.html?go=…)
@@ -442,7 +442,7 @@ function updateSection() {
     if (secHeads.some(([h, l]) => l === label && h.id === a.dataset.go)) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
   });
 }
-addEventListener('scroll', updateSection, { passive: true }); updateSection();
+onPageScroll(updateSection); updateSection();
 // footnotes on a phone: tapping [1] turns the screen black with the paragraph that cites it (dimmed) and the
 // note below it; Close (or Esc) goes back to the text exactly where you were
 const noteScreen = document.createElement('div');
