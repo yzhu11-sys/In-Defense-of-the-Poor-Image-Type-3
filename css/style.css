@@ -226,7 +226,7 @@ html.locked, html.locked body { overflow: hidden; overscroll-behavior: none; }
      top safe area and the bottom fade by the bottom one, so no text shows through above or below them */
   :root { --pad: 24px; --head-h: calc(66px + env(safe-area-inset-top)); }
   .site-header { padding: calc(18px + env(safe-area-inset-top)) 24px 26px; }
-  .bottom-fade { height: 35px; background: linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%); }
+  .bottom-fade { height: 40px; background: linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%); }
   /* the bottom edge stays on from the camera screen on, over the white flash too: Safari's toolbar copies
      the colour at the screen's bottom edge, so it stays black the whole way through */
   html.locked .bottom-fade { display: block; }
